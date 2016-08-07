@@ -8,23 +8,22 @@
 #include "SdCardTools.h"
 #include "FileTools.h"
 
+/*
+ * Base frame for choose file. List all files in directory from constructor.
+ * Current support only short filenames (13 chars - 9.3 format).
+ * Current suppport maximum 254 position
+ */
+
+#define MAXIMUM_POSITIONS 254
+
 class ChooseFileFrame : public IFrameBase {
 private:
+  SdFile file;
   const char * dirName;
   uint32_t * positionsFile;
-  char fileNameBuffor[FILENAME_LIMIT_SIZE+1];  //Warning: Only for short filenames
-//  void onPositionSelect(byte position_) override {
-//    if (position_ == NOT_SELECTED_POSITION)
-//      return;
-//
-////    file.open(sd.vwd(), (positionsFile[index] / 32) - 1, O_READ);
-////    SdFile * configuration = new SdFile();
-////    sd.mkdir(dirName);
-////    
-////
-////    delete configuration;
-//    //show();
-//  }
+  char fileNameBuffer[FILENAME_LIMIT_SIZE+1];  //Warning: Only for short filenames
+
+  // Return number of files in directory (without recurent)
   byte getFileCount(FatFile * directory) {
     directory->rewind();
     byte count = 0;
@@ -33,16 +32,18 @@ private:
         count += 1;
       file.close();
     }
-    file.close();
+    file.close(); //For safe
     return count;
   }
 
+  // Find begin of position all files in directory.
+  // Position is here location in the directory on the SD card.
   void findStartPositionFiles(FatFile * directory) {
     FileTools::chdir(&sd, dirName);
     directory->rewind();
-    positionsFile = new uint32_t[numPositions];
+    positionsFile = new uint32_t[m_numPositions];
     byte count = 0;
-    while (file.openNext(directory, O_READ)) {
+    while (file.openNext(directory, O_READ) && count < MAXIMUM_POSITIONS) {
       if (file.isFile()) {
         positionsFile[count] = directory->curPosition();
         count += 1;
@@ -53,42 +54,40 @@ private:
  
 protected:
   SdFat sd;
-  SdFile file;
 
+  // Return filename on position.
+  // Position is here position in the frame.
+  // Filename is print to buffer. It is clean up in destructor.
   const char * getFileName(byte index) {
       FileTools::chdir(&sd, dirName);
-      file.open(sd.vwd(), (positionsFile[index] / 32) - 1, O_READ);
-      file.getSFN(fileNameBuffor);
+      file.open(sd.vwd(), (positionsFile[index] / 32) - 1, O_READ); //Magic (with division). See SdFat documentation.
+      file.getSFN(fileNameBuffer);
       file.close();
-      return fileNameBuffor;
+      return fileNameBuffer;
   }
    
   virtual void writePosition(byte index) override {
-      lcdWriteString(getFileName(index));
+      MinLcd::lcdWriteString(getFileName(index));
   }
 
   virtual void init() {
-    numPositions = getFileCount(sd.vwd());
+    m_numPositions = getFileCount(sd.vwd());
     findStartPositionFiles(sd.vwd());
   }
 
-  bool initSD(const char * dirName) {
+  void initSD(const char * dirName) {
     SdCardTools::initSdCard(&sd);
     sd.chdir();
     sd.mkdir(dirName);
     sd.chdir(dirName);
-    return true;
   }
 
 public:
   ChooseFileFrame(const char * dirName) : IFrameBase(), dirName(dirName) {
-    fileNameBuffor[FILENAME_LIMIT_SIZE] = '\0';
-//    initSD(dirName);
-    
+    fileNameBuffer[FILENAME_LIMIT_SIZE] = '\0'; //Safe buffer.
   }
   ~ChooseFileFrame() {
     delete[] positionsFile;
-//    delete[] dirName;
   };
 
   void show() override {
@@ -97,6 +96,8 @@ public:
     IFrameBase::show();
   }
 };
+
+#undef MAXIMUM_POSITIONS
 #endif //ChooseFileFrame.h
 
 

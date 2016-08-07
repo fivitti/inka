@@ -84,6 +84,9 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>D:\Dokumenty\Arduino\libraries\CSVFile;D:\Dokumenty\Arduino\libraries\CSVFile\utility;D:\Dokumenty\Arduino\libraries\SdFat;D:\Dokumenty\Arduino\libraries\SdFat\utility;E:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\SPI\src;E:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\SPI\src\utility;E:\Program Files (x86)\Arduino\libraries;E:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries;C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\qz0gckbv.t1h\Micro Platforms\default\debuggers;D:\Dokumenty\Arduino\libraries;E:\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino;E:\Program Files (x86)\Arduino\hardware\arduino\avr\variants\eightanaloginputs;D:\Moje projekty\Arduino\Anki\AnkiTerminal;E:\Program Files (x86)\Arduino\hardware\tools\avr/avr/include/;E:\Program Files (x86)\Arduino\hardware\tools\avr//avr/include/avr/;E:\Program Files (x86)\Arduino\hardware\tools\avr/lib\gcc\avr\4.8.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ForcedIncludeFiles>D:\Moje projekty\Arduino\Anki\AnkiTerminal\__vm\.AnkiTerminal.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <PreprocessorDefinitions>__AVR_ATmega328p__;__AVR_ATmega328P__;_VMDEBUG=1;F_CPU=16000000L;ARDUINO=10609;ARDUINO_AVR_PRO;ARDUINO_ARCH_AVR;__cplusplus=201103L;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -93,7 +96,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>D:\Dokumenty\Arduino\libraries\CSVFile;D:\Dokumenty\Arduino\libraries\CSVFile\utility;D:\Dokumenty\Arduino\libraries\SdFat;D:\Dokumenty\Arduino\libraries\SdFat\utility;E:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\SPI\src;E:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\SPI\src\utility;E:\Program Files (x86)\Arduino\libraries;E:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries;C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\qz0gckbv.t1h\Micro Platforms\default\debuggers;D:\Dokumenty\Arduino\libraries;E:\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino;E:\Program Files (x86)\Arduino\hardware\arduino\avr\variants\eightanaloginputs;D:\Moje projekty\Arduino\AnkiTerminal;E:\Program Files (x86)\Arduino\hardware\tools\avr/avr/include/;E:\Program Files (x86)\Arduino\hardware\tools\avr//avr/include/avr/;E:\Program Files (x86)\Arduino\hardware\tools\avr/lib\gcc\avr\4.8.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Dokumenty\Arduino\libraries\CSVFile;D:\Dokumenty\Arduino\libraries\CSVFile\utility;D:\Dokumenty\Arduino\libraries\SdFat;D:\Dokumenty\Arduino\libraries\SdFat\utility;E:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\SPI\src;E:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\SPI\src\utility;E:\Program Files (x86)\Arduino\libraries;E:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries;C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\qz0gckbv.t1h\Micro Platforms\default\debuggers;D:\Dokumenty\Arduino\libraries;E:\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino;E:\Program Files (x86)\Arduino\hardware\arduino\avr\variants\eightanaloginputs;D:\Moje projekty\Arduino\Anki\AnkiTerminal;E:\Program Files (x86)\Arduino\hardware\tools\avr/avr/include/;E:\Program Files (x86)\Arduino\hardware\tools\avr//avr/include/avr/;E:\Program Files (x86)\Arduino\hardware\tools\avr/lib\gcc\avr\4.8.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>D:\Moje projekty\Arduino\AnkiTerminal\__vm\.AnkiTerminal.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <PreprocessorDefinitions>__AVR_ATmega328p__;__AVR_ATmega328P__;F_CPU=16000000L;ARDUINO=10609;ARDUINO_AVR_PRO;ARDUINO_ARCH_AVR;__cplusplus=201103L;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -106,10 +109,14 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>Disabled</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>D:\Dokumenty\Arduino\libraries\CSVFile;D:\Dokumenty\Arduino\libraries\CSVFile\utility;D:\Dokumenty\Arduino\libraries\SdFat;D:\Dokumenty\Arduino\libraries\SdFat\utility;E:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\SPI\src;E:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\SPI\src\utility;E:\Program Files (x86)\Arduino\libraries;E:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries;C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\qz0gckbv.t1h\Micro Platforms\default\debuggers;D:\Dokumenty\Arduino\libraries;E:\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino;E:\Program Files (x86)\Arduino\hardware\arduino\avr\variants\eightanaloginputs;D:\Moje projekty\Arduino\Anki\AnkiTerminal;E:\Program Files (x86)\Arduino\hardware\tools\avr/avr/include/;E:\Program Files (x86)\Arduino\hardware\tools\avr//avr/include/avr/;E:\Program Files (x86)\Arduino\hardware\tools\avr/lib\gcc\avr\4.8.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ForcedIncludeFiles>D:\Moje projekty\Arduino\Anki\AnkiTerminal\__vm\.AnkiTerminal.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <PreprocessorDefinitions>__AVR_ATmega328p__;__AVR_ATmega328P__;F_CPU=16000000L;ARDUINO=10609;ARDUINO_AVR_PRO;ARDUINO_ARCH_AVR;__cplusplus=201103L;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -120,11 +127,10 @@
     <None Include="AnkiTerminal.ino">
       <FileType>CppCode</FileType>
     </None>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram11.cd" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AbstractAcceptFrame.h">
-      <FileType>CppCode</FileType>
-    </ClInclude>
     <ClInclude Include="AbstractSelectFrame.h">
       <FileType>CppCode</FileType>
     </ClInclude>
@@ -164,9 +170,6 @@
     <ClInclude Include="Drawer.h">
       <FileType>CppCode</FileType>
     </ClInclude>
-    <ClInclude Include="ExampleFrame.h">
-      <FileType>CppCode</FileType>
-    </ClInclude>
     <ClInclude Include="FileTools.h">
       <FileType>CppCode</FileType>
     </ClInclude>
@@ -182,6 +185,8 @@
     <ClInclude Include="IFrameBase.h">
       <FileType>CppCode</FileType>
     </ClInclude>
+    <ClInclude Include="Lang.h" />
+    <ClInclude Include="LangPL.h" />
     <ClInclude Include="LcdConfigurationLineFrame.h">
       <FileType>CppCode</FileType>
     </ClInclude>
@@ -194,13 +199,10 @@
     <ClInclude Include="LFSR.h">
       <FileType>CppCode</FileType>
     </ClInclude>
-    <ClInclude Include="Menu.h">
-      <FileType>CppCode</FileType>
-    </ClInclude>
     <ClInclude Include="MinLcd.h">
       <FileType>CppCode</FileType>
     </ClInclude>
-    <ClInclude Include="PercentCounter.h">
+    <ClInclude Include="ProgressFile.h">
       <FileType>CppCode</FileType>
     </ClInclude>
     <ClInclude Include="ResetConfigFrame.h">
@@ -222,6 +224,9 @@
       <FileType>CppCode</FileType>
     </ClInclude>
     <ClInclude Include="Tools.h">
+      <FileType>CppCode</FileType>
+    </ClInclude>
+    <ClInclude Include="YesNoAcceptFrame.h">
       <FileType>CppCode</FileType>
     </ClInclude>
     <ClInclude Include="__vm\.AnkiTerminal.vsarduino.h" />

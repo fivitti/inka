@@ -1,16 +1,23 @@
 #ifndef ConfigurationFieldFrame_h
 #define ConfigurationFieldFrame_h
 
+#include <SdFat.h>
+#include <CSVFile.h>
+#include "Config.h"
 #include "IFrameBase.h"
 #include "ConfigurationData.h"
 #include "MinLcd.h"
 #include "ConfigurationFile.h"
-#include "SDCardTools.h"
-#include <SdFat.h>
-#include <CSVFile.h>
+#include "SdCardTools.h"
 #include "FileTools.h"
-#include "Config.h"
 
+/*
+ * Universal class for frame to change value of configuration field.
+ * User see header and can select numberic option.
+ * Range of option is continous and total.
+ * The start position is set to current value.
+ * After select value is update in configuration file.
+ */
 class ConfigurationFieldFrame : public IFrameBase
 {
 protected:
@@ -33,22 +40,18 @@ protected:
   }
   virtual void writePosition(byte index) override
   {
-    lcdWriteNumber(index);
-  }
-  virtual void writeHeader() override
-  {
-    IFrameBase::writeHeader();
-    lcdWriteString(m_configurationData->m_header);
+    MinLcd::lcdWriteNumber(index);
   }
 
 public:
   ConfigurationFieldFrame(const ConfigurationData * configurationData) : IFrameBase(), m_configurationData(configurationData)
   {
+    m_header = m_configurationData->m_header;
   }
   ~ConfigurationFieldFrame() {}
 
   void show() override {
-    numPositions = m_configurationData->m_maximum;
+    m_numPositions = m_configurationData->m_maximum;
 
     SdFat * sd = new SdFat();;
     SdCardTools::initSdCard(sd);

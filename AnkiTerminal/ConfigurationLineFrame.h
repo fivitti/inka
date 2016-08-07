@@ -1,15 +1,20 @@
 #ifndef ConfigurationLineFrame_h
 #define ConfigurationLineFrame_h
 
+#include "Config.h"
 #include "IFrameBase.h"
 #include "ConfigurationData.h"
 #include "ConfigurationFieldFrame.h"
 #include "MinLcd.h"
 
+/*
+ * Class - container for @ConfigurationFileField objects.
+ * Display frame where positions are headers of frame fields.
+ * When user select postion right frame is show.
+ * After close field frame is again display this frame.
+ */
 class ConfigurationLineFrame : public IFrameBase
 {
-private:
-  const __FlashStringHelper * m_header;
 
 protected:
   const ConfigurationData * m_datas;
@@ -27,19 +32,19 @@ protected:
   }
   virtual void writePosition(byte index) override
   {
-    lcdWriteString(m_datas[index].m_header);
-  }
-  virtual void writeHeader()
-  {
-    IFrameBase::writeHeader();
-    lcdWriteString(m_header);
+    MinLcd::lcdWriteString(m_datas[index].m_header);
   }
 
 public:
+  // Arguments:
+  // @header - pointer to string header in flash memory
+  // @configurationDatas - array of data of the field frames
+  // @configurationDatasSize - size of @configurationDatas
   ConfigurationLineFrame(const __FlashStringHelper * header, ConfigurationData * configurationDatas, byte configurationDatasSize) : IFrameBase(),
-                          m_header(header), m_datas(configurationDatas)
+                          m_datas(configurationDatas)
   {
-    numPositions = configurationDatasSize;
+    m_numPositions = configurationDatasSize;
+    m_header = header;
   }
   virtual ~ConfigurationLineFrame() {}
 

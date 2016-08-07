@@ -3,6 +3,17 @@
 
 #include "ConfigurationFieldFrame.h"
 
+/*
+ * Special class for instant show effect current selected option in configuration frame.
+ * I use this for instant change brightness and contrast LCD.
+ * User doesn't have press MIDDLE button for show effect.
+ *
+ * After each change position indicator call @m_instantEffectFunc with current indicating
+ * position as argument.
+ *
+ * If user cancel frame (press MENU button) then @m_instantEffectFunc is called with
+ * start position index.
+ */
 class InstantEffectConfigurationFieldFrame : public ConfigurationFieldFrame
 {
 

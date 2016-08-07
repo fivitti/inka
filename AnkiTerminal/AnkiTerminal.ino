@@ -26,29 +26,35 @@ void setup() {
   SdFat sd;
   CSVFile csvFile;
 
-  setupLcd();
+  //We must initialize LCD with default values, because we can
+  //get error SD card and we must display message for user.
+  MinLcd::setupLcd();
   
   SdCardTools::initSdCard(&sd);
 
+  //It create new configuration file if not exist else do nothing
   ConfigurationFile::createConfigurationFile(&sd, &csvFile);
   
+  //Right configuration LCD
   byte lcdConfiguration[CSV_LINE_CONFIG_LCD_SIZE];
   ConfigurationFile::readConfigurationLine(&csvFile, lcdConfiguration, CSV_LINE_CONFIG_LCD);
 
-  setupLcd(lcdConfiguration[CSV_FIELD_CONFIG_LCD_CONTRAST], lcdConfiguration[CSV_FIELD_CONFIG_LCD_BACKLIGHT]);
+  MinLcd::setupLcd(lcdConfiguration[CSV_FIELD_CONFIG_LCD_CONTRAST], lcdConfiguration[CSV_FIELD_CONFIG_LCD_BACKLIGHT]);
 }
 
 void loop() {  
+    //Show main menu
     RootFrame frame;
     frame.show();
 
     if (frame.getSelectedAction() != START_ACTION)
       return;
     
+    //Start learn program
     SdFat * sd = new SdFat();
     SdCardTools::initSdCard(sd);
     
-    LearnFlow::ankiMain(sd);
+    LearnFlow::performSessionLearn(sd);
 
     delete sd;
 }

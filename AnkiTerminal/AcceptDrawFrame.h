@@ -1,23 +1,28 @@
 #ifndef AcceptDrawFrame_h
 #define AcceptDrawFrame_h
 
-#include "AbstractAcceptFrame.h"
+#include "Lang.h"
+#include "YesNoAcceptFrame.h"
 
-class AcceptDrawFrame : public AbstractAcceptFrame
+/*
+ * Frame for accept result drawing.
+ * This class has custom method draw header (no single string, but with dynamic content).
+ */
+class AcceptDrawFrame : public YesNoAcceptFrame
 {
   private:
   byte m_toAccept{0};
   
   void writeHeader() override
   {
-     IFrameBase::writeHeader();
-     lcdWriteString(F(" Użyć "));
-     lcdWriteNumber(m_toAccept);
-     lcdWriteString(F(" kart?"));
+     MinLcd::lcdXY(0, 0);
+     MinLcd::lcdWriteString(F(LANG_STR_ACCEPT_DRAW_TITLE_FIRST_PART));
+     MinLcd::lcdWriteNumber(m_toAccept);
+     MinLcd::lcdWriteString(F(LANG_STR_ACCEPT_DRAW_TITLE_SECOND_PART));
   }
   
   public:
-  AcceptDrawFrame() : AbstractAcceptFrame() {};
+  AcceptDrawFrame() : YesNoAcceptFrame(nullptr) {};
   ~AcceptDrawFrame() {};
 
   void setToAcceptNumber(byte toAccept) 

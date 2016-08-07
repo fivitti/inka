@@ -2,32 +2,55 @@
 #define font_h
 
 #include <avr/pgmspace.h>
-#define ANSII_EXTEND_HASH(first,second) ((first % 4) + (second % 39) + 128)
-#define EXTEND_ANSII_LENGTH 21
 
-static const PROGMEM byte EXTEND_ANSII_LOCKUP[] =
+/*
+ * This file declare "font" for Nokia LCD display.
+ * @ASCII table define which pixels will be on for each letter.
+ * I extend this font by non-ASCII characters.
+ * I notices that non-ASCII character are recognized as two bytes.
+ * When we cast these to signed character we get two negative numbers.
+ * For each pair negative number we calculate hash by injective function @ASCII_EXTEND_HASH.
+ * When we have hash we check it position in @EXTEND_ASCII_LOCKUP. Index in this table
+ * is position font in @ASCII table in extend part.
+ *
+ * Warning! If you add new non-ASCII characters you must check if @ASCII_EXTEND_HASH is injective function.
+ *          and set correct value for @EXTEND_ASCII_LENGTH
+ *          If you add new ASCII characters you must increment @EXTEND_ASCII_TABLE_START_SHIFT
+ */
+
+//Injective function for arguments from @EXTEND_ASCII_LOCKUP.
+#define ASCII_EXTEND_HASH(first,second) ((first % 4) + (second % 39) + 128)
+#define EXTEND_ASCII_LENGTH 21
+//We skip not visible characters for save memory. This value must be substract from raw char value for
+//get index in @ASCII table. E.g. ' ' as char has value ! (0x21). You must substract 0x20 for get index in array: 1.
+#define ASCII_TABLE_START_SHIFT 0x20
+//It is index in @ASCII first from extend characters.
+#define EXTEND_ASCII_TABLE_START_SHIFT 0x60
+
+//The elements here must have the same order as in @ASCII array.
+static const PROGMEM byte EXTEND_ASCII_LOCKUP[] =
 {
-  ANSII_EXTEND_HASH(-61, -97),  //ß
-  ANSII_EXTEND_HASH(-60, -123), //ą
-  ANSII_EXTEND_HASH(-60, -121), //ć
-  ANSII_EXTEND_HASH(-60, -103), //ę
-  ANSII_EXTEND_HASH(-59, -126), //ł
-  ANSII_EXTEND_HASH(-59, -124), //ń
-  ANSII_EXTEND_HASH(-61, -77),  //ó
-  ANSII_EXTEND_HASH(-59, -101), //ś
-  ANSII_EXTEND_HASH(-59, -70),  //ź
-  ANSII_EXTEND_HASH(-59, -68),  //ż
-  ANSII_EXTEND_HASH(-60, -122), //Ć
-  ANSII_EXTEND_HASH(-59, -127), //Ł
-  ANSII_EXTEND_HASH(-59, -102), //Ś
-  ANSII_EXTEND_HASH(-59, -71),  //Ź
-  ANSII_EXTEND_HASH(-59, -69),  //Ż
-  ANSII_EXTEND_HASH(-61, -74),  //ö
-  ANSII_EXTEND_HASH(-61, -92),  //ä
-  ANSII_EXTEND_HASH(-61, -68),  //ü
-  ANSII_EXTEND_HASH(-61, -124), //Ä
-  ANSII_EXTEND_HASH(-61, -100), //Ü
-  ANSII_EXTEND_HASH(-61, -106), //Ö
+  ASCII_EXTEND_HASH(-61, -97),  //ß
+  ASCII_EXTEND_HASH(-60, -123), //ą
+  ASCII_EXTEND_HASH(-60, -121), //ć
+  ASCII_EXTEND_HASH(-60, -103), //ę
+  ASCII_EXTEND_HASH(-59, -126), //ł
+  ASCII_EXTEND_HASH(-59, -124), //ń
+  ASCII_EXTEND_HASH(-61, -77),  //ó
+  ASCII_EXTEND_HASH(-59, -101), //ś
+  ASCII_EXTEND_HASH(-59, -70),  //ź
+  ASCII_EXTEND_HASH(-59, -68),  //ż
+  ASCII_EXTEND_HASH(-60, -122), //Ć
+  ASCII_EXTEND_HASH(-59, -127), //Ł
+  ASCII_EXTEND_HASH(-59, -102), //Ś
+  ASCII_EXTEND_HASH(-59, -71),  //Ź
+  ASCII_EXTEND_HASH(-59, -69),  //Ż
+  ASCII_EXTEND_HASH(-61, -74),  //ö
+  ASCII_EXTEND_HASH(-61, -92),  //ä
+  ASCII_EXTEND_HASH(-61, -68),  //ü
+  ASCII_EXTEND_HASH(-61, -124), //Ä
+  ASCII_EXTEND_HASH(-61, -100), //Ü
+  ASCII_EXTEND_HASH(-61, -106), //Ö
 };
 
 static const PROGMEM byte ASCII[][5] =
@@ -91,7 +114,7 @@ static const PROGMEM byte ASCII[][5] =
 ,{0x07, 0x08, 0x70, 0x08, 0x07} // 59 Y
 ,{0x61, 0x51, 0x49, 0x45, 0x43} // 5a Z
 ,{0x00, 0x7f, 0x41, 0x41, 0x00} // 5b [
-,{0x02, 0x04, 0x08, 0x10, 0x20} // 5c ¥
+,{0x02, 0x04, 0x08, 0x10, 0x20} // 5c \ backslash
 ,{0x00, 0x41, 0x41, 0x7f, 0x00} // 5d ]
 ,{0x04, 0x02, 0x01, 0x02, 0x04} // 5e ^
 ,{0x40, 0x40, 0x40, 0x40, 0x40} // 5f _
@@ -102,7 +125,7 @@ static const PROGMEM byte ASCII[][5] =
 ,{0x38, 0x44, 0x44, 0x48, 0x7f} // 64 d
 ,{0x38, 0x54, 0x54, 0x54, 0x18} // 65 e
 ,{0x08, 0x7e, 0x09, 0x01, 0x02} // 66 f
-,{0x0c, 0x52, 0x52, 0x52, 0x3e} // 67 g
+,{0x08, 0x54, 0x54, 0x54, 0x38} // 67 g
 ,{0x7f, 0x08, 0x04, 0x04, 0x78} // 68 h
 ,{0x00, 0x44, 0x7d, 0x40, 0x00} // 69 i
 ,{0x20, 0x40, 0x44, 0x3d, 0x00} // 6a j 
@@ -127,7 +150,7 @@ static const PROGMEM byte ASCII[][5] =
 ,{0x00, 0x41, 0x36, 0x08, 0x00} // 7d }
 ,{0x10, 0x08, 0x08, 0x10, 0x08} // 7e ← //???
 ,{0x78, 0x46, 0x41, 0x46, 0x78} // 7f → //???
-,{0xff, 0xff, 0xff, 0xff, 0xff}   //80 ß  //0 to correct
+,{0x7f, 0x01, 0x45, 0x4a, 0x30}   //80 ß  //0
 ,{0x20, 0x54, 0x54, 0xd4, 0x78}   //81 ą  //1
 ,{0x38, 0x44, 0x46, 0x45, 0x20}   //82 ć  //2
 ,{0x38, 0x54, 0x54, 0xd4, 0x18}   //83 ę  //3
@@ -147,7 +170,7 @@ static const PROGMEM byte ASCII[][5] =
 ,{0x3c, 0x41, 0x40, 0x21, 0x7c}   //91 ü  //17
 ,{0x78, 0x15, 0x14, 0x15, 0x78}   //92 Ä  //18
 ,{0x3c, 0x41, 0x40, 0x41, 0x3c}   //93 Ü  //19
-,{0x38, 0x45, 0x44, 0x45, 0x38}   //94 ö  //indentical as 15
+,{0x3c, 0x43, 0x42, 0x43, 0x3c}   //94 Ö  //20
 };
 
 #endif  // font.h

@@ -7,12 +7,17 @@
 #include "ConfigurationFile.h"
 #include "CSVSpecifications.h"
 #include "LcdTools.h"
+#include "Lang.h"
 
 #define BUFFER_SIZE FILENAME_LIMIT_SIZE
 #define SAFE_BUFFER_SIZE BUFFER_SIZE+1
 
 #define RETURN_IF_FALSE(status_) if(!(status_))return false;
 
+/*
+ * Class save result of session to progress file.
+ * This class use mechanism for protect by power down while summary in progress.
+ */
 class Summary
 {
   private:
@@ -75,6 +80,10 @@ class Summary
     m_csvSession.close();
   }
   
+  // Method return TRUE if summary is current in progress (e.g. user
+  // power down when summary was in progress).
+  // If summary is in progress then set pointer in SD card at begin of
+  // first not saved line in session file. Else set pointer at begin of file.
   bool checkSummaryInProgressAndSetPointerAtBeginFirstNotRemovedLine()
   {
     m_csvSession.gotoBeginOfFile();
@@ -95,6 +104,7 @@ class Summary
     return true;
   }
 
+  //Add @change to @beginProbability to truncate the value to range [0; 99] [@CSV_FIELD_PROGRESS_PROBABILITY_MINIMUM; @CSV_FIELD_PROGRESS_PROBABILITY_MAXIMUM]
   byte saturateProbability(byte beginProbability, int change)
   {
     const int afterChange = beginProbability + change;
@@ -107,6 +117,8 @@ class Summary
   }
 
   //Required gotoBeginOfField();
+  //Edit current field in progress file.
+  //@changeProbability is delta probability, not new value of field.
   void editProgressField(int changeProbability)
   {
     m_csvProgress.readField(m_numBuffer, m_buffer, BUFFER_SIZE);
@@ -114,6 +126,8 @@ class Summary
     m_csvProgress.editField(saturateProbability(m_numBuffer, changeProbability));
   }
   
+  //Edit current line in progress file.
+  //@type specify field in line to edit.
   void editProgressLine(int changeProbability, byte type)
   {
     if (type == DRAW_MODE_FIRST_LANG || type == DRAW_MODE_BOTH_LANG)
@@ -128,11 +142,14 @@ class Summary
     }       
   }
 
+  //Increase probability of both field in progress file for current line.
+  //Forgetting is not apply for line which was use in session.
   void increaseProbabilityByForgetting()
   {
     editProgressLine(m_forgetIncreaseProbabilty, DRAW_MODE_BOTH_LANG);
   }
   
+  //Read important fields from session file.
   void readSessionLine(byte& repeatTotal, unsigned int& numLine, byte& type)
   {
     m_csvSession.gotoField(CSV_FIELD_SESSION_REPEAT_TOTAL);
@@ -148,6 +165,7 @@ class Summary
     type = m_numBuffer;
   }
 
+  //Return change probability value from repeats in session
   int getChangeProbability(byte totalRepeats)
   {
     if (totalRepeats <= m_limitForEasy)
@@ -163,7 +181,6 @@ class Summary
   //If summary is partially completed then skip processed lines.
   //Set pointer in session file to first not removed line and
   //in progress file to coressponding line.
-  //Return number corresponding line in progress file
   void skipProcessedProgress()
   {
     m_numBuffer = 0;
@@ -175,10 +192,16 @@ class Summary
     m_csvProgress.gotoLine(m_numBuffer);
   }
 
-
+  //This method realise algorithm:
+  //1. Open session and progress files
+  //2. Find begin of part with not processed progress (if summary was in progress)
+  //3. For each card in session save result user's rates in progress files.
+  //4. Increase probability cards not used in session.
+  //
+  //Method return true if processed is end or false if don't exist session or progres file.
   bool executeImpl()
   {
-    LcdTools::writeFullscreenMessage(F(" Podsumowuję"));
+    LcdTools::writeFullscreenMessage(F(LANG_STR_SUMMARY_IN_PROGRESS_MESSAGE));
     
     if (!init()) //Missing session file;
       return false;
@@ -218,16 +241,17 @@ class Summary
   public:
   Summary(SdFat * sd) : m_sd(sd) 
   {
-    m_buffer[BUFFER_SIZE] = '\0';
+    m_buffer[BUFFER_SIZE] = '\0'; //Safe buffer
   }
   ~Summary() {}
 
+  // Start processing session file.
   void execute()
   {
     executeImpl();
     disposeFiles();
     m_sd->remove(SESSION_SET_FILENAME);
-    LcdTools::writeFullscreenMessage(F(" Koniec sesji"));
+    LcdTools::writeFullscreenMessage(F(LANG_STR_SUMMARY_END_SESSION_MESSAGE));
     delay(HUMAN_ERROR_DELAY);
   }
 };

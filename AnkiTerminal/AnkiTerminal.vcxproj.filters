@@ -16,12 +16,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="AnkiTerminal.ino" />
+    <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram11.cd" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="__vm\.AnkiTerminal.vsarduino.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AbstractAcceptFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AbstractSelectFrame.h">
@@ -51,9 +50,6 @@
     <ClInclude Include="Drawer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ExampleFrame.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="FileTools.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -72,13 +68,7 @@
     <ClInclude Include="LFSR.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Menu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="MinLcd.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PercentCounter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RootFrame.h">
@@ -121,6 +111,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ResetConfigFrame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Lang.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LangPL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="YesNoAcceptFrame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ProgressFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

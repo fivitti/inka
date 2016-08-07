@@ -6,6 +6,10 @@
 #include "ChooseLangModeFrame.h"
 #include "CSVSpecifications.h"
 
+/*
+ * This class provide access to feature @ChooseLangModeFrame
+ * It is simpliest and least use of resources solution.
+ */
 class DrawConfigurationLineFrame : public ConfigurationLineFrame
 {
 protected:

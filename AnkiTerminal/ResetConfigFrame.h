@@ -1,41 +1,38 @@
 #ifndef ResetConfigFrame_h
 #define ResetConfigFrame_h
 
-#include "AbstractAcceptFrame.h"
+#include "YesNoAcceptFrame.h"
 #include <SdFat.h>
-#include "SDCardTools.h"
+#include "SdCardTools.h"
 #include "FileTools.h"
 #include "Config.h"
+#include "Lang.h"
 #include "ConfigurationFile.h"
 #include <CSVFile.h>
 
-class ResetConfigFrame : public AbstractAcceptFrame
+/*
+ * If user choose @ACCEPT_ACTION (yes) then current configuration
+ * file will be delete and recreate with default values.
+ */
+class ResetConfigFrame : public YesNoAcceptFrame
 {
-
-private:
-  void writeHeader() override
-  {
-    AbstractAcceptFrame::writeHeader();
-    lcdWriteString(F(" Reset opcji?"));
-  }
 
 protected:
   void onPositionSelect(byte position_) override {
-    AbstractAcceptFrame::onPositionSelect(position_);
+    YesNoAcceptFrame::onPositionSelect(position_);
 
     if (position_ == ACCEPT_ACTION)
     {
       SdFat sd;
       SdCardTools::initSdCard(&sd);
-      FileTools::chdir(&sd, APPLICATION_DIR);
-      sd.remove(CONFIGURATION_FILENAME);
       CSVFile csv;
-      ConfigurationFile::createConfigurationFile(&sd, &csv);
+      ConfigurationFile::resetConfigurationFile(&sd, &csv);
     }
   }
 
 public:
-  ResetConfigFrame() : AbstractAcceptFrame() {  };
+  ResetConfigFrame() : YesNoAcceptFrame(F(LANG_STR_RESET_CONFIG_POPUP)) {
+  };
   ~ResetConfigFrame() {};
 };
 

@@ -2,6 +2,7 @@
 #define Drawer_h
 
 #include "Config.h"
+#include "Lang.h"
 #include "CSVSpecifications.h"
 #include "ConfigurationFile.h"
 #include <SdFat.h>
@@ -13,6 +14,11 @@
 #define MAXIMUM_PROBABILITY_FOR_RANDOM 100
 #define BEGIN_REPEAT_TOTAL_NUMBER 0
 #define NOT_DRAWED_TYPE 4
+
+/*
+ * Class for draw cards for new session.
+ * It create session file.
+ */
 class Drawer
 {
   private:
@@ -48,7 +54,7 @@ class Drawer
 
     if (StringTools::isEmpty(m_buffer))
     {
-      LcdTools::writeFullscreenMessage(F(" Brak słownika"));
+      LcdTools::writeFullscreenMessage(F(LANG_STR_MISSING_DICTIONARY_MESSAGE));
       delay(HUMAN_ERROR_DELAY);
       return false;
     }
@@ -103,6 +109,12 @@ class Drawer
     sessionFile->addField(type);
   }
 
+  // The mechanism of the draw is very simply. Each card has two value of probability (one for each language)
+  // Algorithm goes through the dictionary and test each card one by one. It draws number (0-99) and compare with the probability.
+  // If draw number will be less then probability the card is selected.
+  // The algorithm searches dictionary only one times. (Hard task is check if card is selected when re-search).
+  // The search is end when number of drawing card is equals this parameter or end of dictonary.
+  // It may therefore happen, that the algoritm draw less number of cards then value this parameter.
   byte draw()
   {
     m_sd->chdir();
@@ -153,10 +165,16 @@ class Drawer
 
     return drawingCard;
   }
+
+  byte getMaximumToDraw()
+  {
+    return m_maximumToDraw;
+  }
 };
 
 #undef BUFFER_SIZE
 #undef MAXIMUM_PROBABILITY_FOR_RANDOM
 #undef BEGIN_REPEAT_TOTAL_NUMBER
 #undef NOT_DRAWED_TYPE
+#undef BEGIN_REPEAT_TOTAL_NUMBER
 #endif //Drawer_h

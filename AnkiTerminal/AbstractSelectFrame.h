@@ -3,6 +3,9 @@
 
 #include "IFrameBase.h"
 
+/*
+ * Abstract class provide interface for remember and get position choose by user from outside frame.
+ */
 class AbstractSelectFrame : public IFrameBase {
 private:
   byte positionSelected = NOT_SELECTED_POSITION;
