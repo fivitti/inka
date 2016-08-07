@@ -16,8 +16,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="AnkiTerminal.ino" />
-    <None Include="ClassDiagram1.cd" />
-    <None Include="ClassDiagram11.cd" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="__vm\.AnkiTerminal.vsarduino.h">

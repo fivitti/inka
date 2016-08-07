@@ -127,8 +127,6 @@
     <None Include="AnkiTerminal.ino">
       <FileType>CppCode</FileType>
     </None>
-    <None Include="ClassDiagram1.cd" />
-    <None Include="ClassDiagram11.cd" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractSelectFrame.h">
