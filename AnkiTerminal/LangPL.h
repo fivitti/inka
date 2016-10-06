@@ -27,6 +27,8 @@
 #define LANG_STR_ACCEPT_DRAW_TITLE_SECOND_PART  " kart?"                  //  0-12            Part of header    This and first part together should have 12 size. Don't remember about one space at begin this string.
 // ChooseDictionaryFrame
 #define LANG_STR_INIT_DICTIONARY_MESSAGE        "Inicjuję"                //  14              Message           Popup
+// ChooseFileFrame
+#define LANG_STR_MISSING_FILES_MESSAGE          "Brak plików"             //  14              Message           Popup
 // ChooseLangModeFrame
 #define LANG_STR_FIRST_LANG                     "1. język"                //  13              Position
 #define LANG_STR_SECOND_LANG                    "2. język"                //  13              Position             
@@ -67,6 +69,9 @@
 #define LANG_STR_APPLICATION_TITLE              LANG_STR_APPLICATION_TITLE_POPUP  //  14      Header
 // SdCardTools
 #define LANG_STR_SD_CARD_ERROR_MESSAGE          "Błąd karty SD"           //  14              Message           Popup
+#define LANG_STR_SD_CARD_MISSING                "Włóż kartę SD"           //  14              Message           Popup
+#define LANG_STR_SD_CARD_NEED_FORMAT            "Sfromatuj SD"            //  14              Message           Popup
+#define LANG_STR_SD_CARD_ACCESS_DENIED          "SD niedostępna"          //  14              Message           Popup
 // Session
 #define LANG_STR_TEXT_IN_PROGRESS_SESSION       LANG_STR_APPLICATION_TITLE_POPUP  //  4       Part of header    Warning! Small length. Text in left up corner display when cards are show
 #define LANG_STR_SYMBOL_QUESTION                'P'                       //  1               Character

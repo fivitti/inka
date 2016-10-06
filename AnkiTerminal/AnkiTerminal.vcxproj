@@ -1,6 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug - Without special function|Win32">
+      <Configuration>Debug - Without special function</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug - Without special function|x64">
+      <Configuration>Debug - Without special function</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
@@ -37,6 +45,13 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug - Without special function|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
@@ -44,6 +59,13 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug - Without special function|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
@@ -61,10 +83,16 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug - Without special function|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug - Without special function|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -74,9 +102,9 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>D:\Dokumenty\Arduino\libraries\CSVFile;D:\Dokumenty\Arduino\libraries\CSVFile\utility;D:\Dokumenty\Arduino\libraries\MemoryFree;D:\Dokumenty\Arduino\libraries\MemoryFree\utility;D:\Dokumenty\Arduino\libraries\SdFat;D:\Dokumenty\Arduino\libraries\SdFat\utility;E:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\SPI\src;E:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\SPI\src\utility;E:\Program Files (x86)\Arduino\libraries;E:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries;C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\qz0gckbv.t1h\Micro Platforms\default\debuggers;D:\Dokumenty\Arduino\libraries;E:\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino;E:\Program Files (x86)\Arduino\hardware\arduino\avr\variants\eightanaloginputs;D:\Moje projekty\Arduino\AnkiTerminal;E:\Program Files (x86)\Arduino\hardware\tools\avr/avr/include/;E:\Program Files (x86)\Arduino\hardware\tools\avr//avr/include/avr/;E:\Program Files (x86)\Arduino\hardware\tools\avr/lib\gcc\avr\4.8.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <ForcedIncludeFiles>D:\Moje projekty\Arduino\AnkiTerminal\__vm\.AnkiTerminal.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
-      <PreprocessorDefinitions>__AVR_ATmega328p__;__AVR_ATmega328P__;_VMDEBUG=1;F_CPU=16000000L;ARDUINO=10609;ARDUINO_AVR_PRO;ARDUINO_ARCH_AVR;__cplusplus=201103L;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Dokumenty\Arduino\libraries\CSVFile;D:\Dokumenty\Arduino\libraries\CSVFile\utility;D:\Dokumenty\Arduino\libraries\SdFat;D:\Dokumenty\Arduino\libraries\SdFat\utility;E:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\SPI\src;E:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\SPI\src\utility;E:\Program Files (x86)\Arduino\libraries;E:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries;C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\qz0gckbv.t1h\Micro Platforms\default\debuggers;D:\Dokumenty\Arduino\libraries;E:\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino;E:\Program Files (x86)\Arduino\hardware\arduino\avr\variants\eightanaloginputs;D:\Moje projekty\Arduino\Anki\AnkiTerminal;E:\Program Files (x86)\Arduino\hardware\tools\avr/avr/include/;E:\Program Files (x86)\Arduino\hardware\tools\avr//avr/include/avr/;E:\Program Files (x86)\Arduino\hardware\tools\avr/lib\gcc\avr\4.8.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ForcedIncludeFiles>D:\Moje projekty\Arduino\Anki\AnkiTerminal\__vm\.AnkiTerminal.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <PreprocessorDefinitions>__AVR_ATmega328p__;__AVR_ATmega328P__;F_CPU=16000000L;ARDUINO=10609;ARDUINO_AVR_PRO;ARDUINO_ARCH_AVR;__cplusplus=201103L;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -97,9 +125,26 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>D:\Dokumenty\Arduino\libraries\CSVFile;D:\Dokumenty\Arduino\libraries\CSVFile\utility;D:\Dokumenty\Arduino\libraries\SdFat;D:\Dokumenty\Arduino\libraries\SdFat\utility;E:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\SPI\src;E:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\SPI\src\utility;E:\Program Files (x86)\Arduino\libraries;E:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries;C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\qz0gckbv.t1h\Micro Platforms\default\debuggers;D:\Dokumenty\Arduino\libraries;E:\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino;E:\Program Files (x86)\Arduino\hardware\arduino\avr\variants\eightanaloginputs;D:\Moje projekty\Arduino\Anki\AnkiTerminal;E:\Program Files (x86)\Arduino\hardware\tools\avr/avr/include/;E:\Program Files (x86)\Arduino\hardware\tools\avr//avr/include/avr/;E:\Program Files (x86)\Arduino\hardware\tools\avr/lib\gcc\avr\4.8.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <ForcedIncludeFiles>D:\Moje projekty\Arduino\AnkiTerminal\__vm\.AnkiTerminal.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ForcedIncludeFiles>D:\Moje projekty\Arduino\Anki\AnkiTerminal\__vm\.AnkiTerminal.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <WholeProgramOptimization>false</WholeProgramOptimization>
-      <PreprocessorDefinitions>__AVR_ATmega328p__;__AVR_ATmega328P__;F_CPU=16000000L;ARDUINO=10609;ARDUINO_AVR_PRO;ARDUINO_ARCH_AVR;__cplusplus=201103L;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>__AVR_ATmega328p__;__AVR_ATmega328P__;_DEBUG=1;F_CPU=16000000L;ARDUINO=10609;ARDUINO_AVR_PRO;ARDUINO_ARCH_AVR;__cplusplus=201103L;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug - Without special function|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>D:\Dokumenty\Arduino\libraries\CSVFile;D:\Dokumenty\Arduino\libraries\CSVFile\utility;D:\Dokumenty\Arduino\libraries\SdFat;D:\Dokumenty\Arduino\libraries\SdFat\utility;E:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\SPI\src;E:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\SPI\src\utility;E:\Program Files (x86)\Arduino\libraries;E:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries;C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\qz0gckbv.t1h\Micro Platforms\default\debuggers;D:\Dokumenty\Arduino\libraries;E:\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino;E:\Program Files (x86)\Arduino\hardware\arduino\avr\variants\eightanaloginputs;D:\Moje projekty\Arduino\Anki\AnkiTerminal;E:\Program Files (x86)\Arduino\hardware\tools\avr/avr/include/;E:\Program Files (x86)\Arduino\hardware\tools\avr//avr/include/avr/;E:\Program Files (x86)\Arduino\hardware\tools\avr/lib\gcc\avr\4.8.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ForcedIncludeFiles>D:\Moje projekty\Arduino\Anki\AnkiTerminal\__vm\.AnkiTerminal.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <PreprocessorDefinitions>__AVR_ATmega328p__;__AVR_ATmega328P__;_DEBUG=1;_VMDEBUG=1;F_CPU=16000000L;ARDUINO=10609;ARDUINO_AVR_PRO;ARDUINO_ARCH_AVR;__cplusplus=201103L;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -107,6 +152,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>D:\Dokumenty\Arduino\libraries\CSVFile;D:\Dokumenty\Arduino\libraries\CSVFile\utility;D:\Dokumenty\Arduino\libraries\SdFat;D:\Dokumenty\Arduino\libraries\SdFat\utility;E:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\SPI\src;E:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\SPI\src\utility;E:\Program Files (x86)\Arduino\libraries;E:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries;C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\qz0gckbv.t1h\Micro Platforms\default\debuggers;D:\Dokumenty\Arduino\libraries;E:\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino;E:\Program Files (x86)\Arduino\hardware\arduino\avr\variants\eightanaloginputs;D:\Moje projekty\Arduino\Anki\AnkiTerminal;E:\Program Files (x86)\Arduino\hardware\tools\avr/avr/include/;E:\Program Files (x86)\Arduino\hardware\tools\avr//avr/include/avr/;E:\Program Files (x86)\Arduino\hardware\tools\avr/lib\gcc\avr\4.8.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ForcedIncludeFiles>D:\Moje projekty\Arduino\Anki\AnkiTerminal\__vm\.AnkiTerminal.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <PreprocessorDefinitions>__AVR_ATmega328p__;__AVR_ATmega328P__;_DEBUG=1;F_CPU=16000000L;ARDUINO=10609;ARDUINO_AVR_PRO;ARDUINO_ARCH_AVR;__cplusplus=201103L;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug - Without special function|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>

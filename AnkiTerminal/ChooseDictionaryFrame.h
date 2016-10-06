@@ -74,9 +74,10 @@ protected:
 
   // Method from ChooseFileFrame
   // Set start position frame as position with current choose dictionary
-  void init() override
+  bool init() override
   {
-    ChooseFileFrame::init();
+    if (!ChooseFileFrame::init())
+      return false;
 
     char buffer_[FILENAME_LIMIT_SIZE + 1];
     buffer_[FILENAME_LIMIT_SIZE] = '\0';
@@ -92,6 +93,8 @@ protected:
     {
       setStartPosition(findStartPosition(buffer_));
     }
+
+    return true;
   }
   
 public:

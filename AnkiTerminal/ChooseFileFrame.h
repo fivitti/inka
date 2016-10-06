@@ -7,6 +7,8 @@
 #include "MinLcd.h"
 #include "SdCardTools.h"
 #include "FileTools.h"
+#include "LcdTools.h"
+#include "Lang.h"
 
 /*
  * Base frame for choose file. List all files in directory from constructor.
@@ -33,6 +35,7 @@ private:
       file.close();
     }
     file.close(); //For safe
+    
     return count;
   }
 
@@ -70,9 +73,18 @@ protected:
       MinLcd::lcdWriteString(getFileName(index));
   }
 
-  virtual void init() {
+  virtual bool init() {
     m_numPositions = getFileCount(sd.vwd());
+
+    if (m_numPositions == 0) {
+      LcdTools::writeFullscreenMessage(F(LANG_STR_MISSING_FILES_MESSAGE));
+      delay(HUMAN_ERROR_DELAY);
+      return false;
+    }
+      
     findStartPositionFiles(sd.vwd());
+
+    return true;
   }
 
   void initSD(const char * dirName) {

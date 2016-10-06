@@ -4,11 +4,14 @@
 #include "LcdTools.h"
 #include <SdFat.h>
 #include <CSVFile.h>
-//#include <MemoryFree.h> //Disable for release
 #include "ConfigurationFile.h"
 #include "SdCardTools.h"
 #include "RootFrame.h"
 #include "LearnFlow.h"
+
+#if _DEBUG
+//#include <MemoryFree.h> //Disable for release
+#endif
 
 void setup() {  
   setupPinout();
@@ -21,7 +24,11 @@ void setup() {
   SPI.setBitOrder(MSBFIRST);
   #endif //SPI_USE_TRANSACTION
 
-  //Serial.begin(9600); //<-- Disable for release
+  #if _DEBUG
+  Serial.begin(9600); //<-- Disable for release
+  while (!Serial);
+  Serial.println(F("DEBUG MODE"));
+  #endif //_DEBUG
 
   SdFat sd;
   CSVFile csvFile;

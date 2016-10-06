@@ -10,7 +10,7 @@
 #include "Lang.h"
 
 #define BUFFER_SIZE FILENAME_LIMIT_SIZE
-#define SAFE_BUFFER_SIZE BUFFER_SIZE+1
+#define SAFE_BUFFER_SIZE (BUFFER_SIZE+1)
 
 #define RETURN_IF_FALSE(status_) if(!(status_))return false;
 
@@ -84,19 +84,19 @@ class Summary
   // power down when summary was in progress).
   // If summary is in progress then set pointer in SD card at begin of
   // first not saved line in session file. Else set pointer at begin of file.
-  bool checkSummaryInProgressAndSetPointerAtBeginFirstNotRemovedLine()
+  bool checkSummaryInProgressAndSetPointerAtBeginFirstNotDeletedLine()
   {
     m_csvSession.gotoBeginOfFile();
 
     //If first line is not removed then summary is not beggining
-    if (!m_csvSession.isLineMarkedAsRemove())
+    if (!m_csvSession.isLineMarkedAsDelete())
     {
       m_csvSession.gotoBeginOfLine();
       return false;
     }
 
     //Else we set pointer to begin first not removed line
-    while (m_csvSession.nextLine() && m_csvSession.isLineMarkedAsRemove())
+    while (m_csvSession.nextLine())
     { }
 
     m_csvSession.gotoBeginOfLine();
@@ -184,7 +184,7 @@ class Summary
   void skipProcessedProgress()
   {
     m_numBuffer = 0;
-    if (checkSummaryInProgressAndSetPointerAtBeginFirstNotRemovedLine())
+    if (checkSummaryInProgressAndSetPointerAtBeginFirstNotDeletedLine())
     {
       m_csvSession.gotoField(CSV_FIELD_SESSION_NUMBER_LINE);
       m_csvSession.readField(m_numBuffer, m_buffer, BUFFER_SIZE);
@@ -225,7 +225,7 @@ class Summary
       editProgressLine(getChangeProbability(totalRepeats), type);
 
       m_csvSession.gotoBeginOfLine();
-      m_csvSession.markLineAsRemove();
+      m_csvSession.markLineAsDelete();
       
       m_csvProgress.nextLine();
     }

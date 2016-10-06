@@ -1,10 +1,50 @@
 #ifndef Config_h
 #define Config_h
 
+// -*-*-*- Suggest configuration of SdFat library -*-*-*-
+
+// It is recommended configuration for this project.
+// You don't need set it in SdFatConfig.h before compile project.
+#include <SdFatConfig.h>
+#undef USE_LONG_FILE_NAMES
+#undef ARDUINO_FILE_USES_STREAM
+#undef SD_SPI_CONFIGURATION
+#undef USE_SD_CRC
+#undef ENABLE_SPI_TRANSACTION
+#undef ENABLE_SPI_YIELD
+#undef FAT12_SUPPORT
+#undef DESTRUCTOR_CLOSES_FILE
+#undef ENDL_CALLS_FLUSH
+
+#define USE_LONG_FILE_NAMES 0
+#define ARDUINO_FILE_USES_STREAM 0
+#define SD_SPI_CONFIGURATION 0  //Fast custom SPI configuration for SD card
+#define USE_SD_CRC 0
+#define ENABLE_SPI_TRANSACTION 1
+#define ENABLE_SPI_YIELD 0
+#define FAT12_SUPPORT 0
+#define DESTRUCTOR_CLOSES_FILE 0
+#define ENDL_CALLS_FLUSH 0
 #include <SdFat.h>
 
+// -*-*- Configuration CSVFile -*-*-
+
+// It is recommended configuration for this project.
+// You should set it in CSVFileConfig.h before compile project.
+
+/*
+ * #include <CSVFileConfig.h>
+ * #define CSV_FILE_ENABLE_CHECK_EMPTY_LINE 0
+ * #define CSV_FILE_ENABLE_GOTO_BEGIN_STARTS_WITH 0
+ * #define CSV_FILE_ENABLE_DELETING_LINE 1
+ * #define CSV_FILE_ENABLE_CHECK_OVERWRITE_ERROR 0
+ * #include <CSVFile.h>
+ */
+
+// -*-*-*- Application config -*-*-*-
+
 // SPI config
-#define SPI_USE_TRANSACTION 1
+#define SPI_USE_TRANSACTION ENABLE_SPI_TRANSACTION
 //Remember set SD config in SD FAT Config
 
 // SPI pinout
@@ -12,12 +52,12 @@
 #define PIN_SPI_MOSI 11
 #define PIN_SPI_MISO 12
 
-#define PIN_LCD_CS 3
+#define PIN_LCD_CS 2
 #define PIN_SD_CS 10
 
 // LCD pinout
-#define PIN_LCD_RST 2
-#define PIN_LCD_DC  4
+#define PIN_LCD_RST 3
+#define PIN_LCD_DC  4   
 #define PIN_LCD_BACKLIGHT 5 //Must be PWM pin
 #define PIN_LCD_CE PIN_LCD_CS
 #define PIN_LCD_DIN PIN_SPI_MOSI
@@ -43,51 +83,6 @@
 #define SESSION_SET_FILENAME "sess.ion"     //File with state current session. It will be create before session and delete after.
 #define FILENAME_LIMIT_SIZE 13 //For short filenames  //If you want change this limit you should change solution for open files and enabled support in SdFat
 
-// Suggest configuration of SdFat library
-#ifdef USE_LONG_FILE_NAMES
-#undef USE_LONG_FILE_NAMES
-#define USE_LONG_FILE_NAMES 0
-#endif //USE_LONG_FILE_NAMES
-
-#ifdef ARDUINO_FILE_USES_STREAM
-#undef ARDUINO_FILE_USES_STREAM
-#define ARDUINO_FILE_USES_STREAM 0
-#endif //ARDUINO_FILE_USES_STREAM
-
-#ifdef SD_SPI_CONFIGURATION
-#undef SD_SPI_CONFIGURATION
-#define SD_SPI_CONFIGURATION 0  //Fast custom SPI configuration for SD card
-#endif //SD_SPI_CONFIGURATION
-
-#ifdef USE_SD_CRC
-#undef USE_SD_CRC
-#define USE_SD_CRC 0
-#endif //USE_SD_CRC
-
-#ifdef ENABLE_SPI_TRANSACTION
-#undef ENABLE_SPI_TRANSACTION
-#define ENABLE_SPI_TRANSACTION SPI_USE_TRANSACTION
-#endif //ENABLE_SPI_TRANSACTION
-
-#ifdef ENABLE_SPI_YIELD
-#undef ENABLE_SPI_YIELD
-#define ENABLE_SPI_YIELD 0
-#endif //ENABLE_SPI_YIELD
-
-#ifdef FAT12_SUPPORT
-#undef FAT12_SUPPORT
-#define FAT12_SUPPORT 0
-#endif //FAT12_SUPPORT
-
-#ifdef DESTRUCTOR_CLOSES_FILE
-#undef DESTRUCTOR_CLOSES_FILE
-#define DESTRUCTOR_CLOSES_FILE 0
-#endif // DESTRUCTOR_CLOSES_FILE
-
-#ifdef ENDL_CALLS_FLUSH
-#undef ENDL_CALLS_FLUSH
-#define ENDL_CALLS_FLUSH 0
-#endif // ENDL_CALLS_FLUSH
 
 // Buttons config
 // You should measure your buttons and provide here correct values
@@ -106,6 +101,11 @@
 #define HUMAN_BUTTON_DELAY 200 //miliseconds //Human response time when single press button.
 #define ENABLE_DEBUGGING_FUNCTIONS 0
 #define HUMAN_ERROR_DELAY 3000 //miliseconds //Time it takes a human to read (single line) message on the LCD.
+
+#ifdef _DEBUG
+#undef _DEBUG
+#endif //_DEBUG
+#define _DEBUG 0
 
 // Learn config - default values
 // "Max card per session" parameter determine the maximum number card will be drawn for single session.

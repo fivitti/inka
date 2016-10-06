@@ -130,7 +130,7 @@ namespace ConfigurationFile
     csv->open(CONFIGURATION_FILENAME, O_RDWR);
     csv->gotoLine(CSV_LINE_CONFIG_DICTIONARY);
     csv->addField(fileNameDictionary);
-    csv->clearToEnd();
+    csv->truncate(csv->curPosition());  //Current position is first position after dictionary name
     csv->close();
   }
 

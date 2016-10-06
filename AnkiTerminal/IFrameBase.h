@@ -7,8 +7,8 @@
 #include "Buttons.h"
 
 #define HEADER_HEIGHT 1  //in rows
-#define MAX_POSITIONS_ON_SCREEN LCD_ROW_NUM-HEADER_HEIGHT
-#define MENU_INDICATOR_WIDTH 1*CHAR_WIDTH  //in pixels - 6 pixel is width of char (with one empty pixel
+#define MAX_POSITIONS_ON_SCREEN (LCD_ROW_NUM-HEADER_HEIGHT)
+#define MENU_INDICATOR_WIDTH (1*CHAR_WIDTH)  //in pixels - 6 pixel is width of char (with one empty pixel
 #define INDICATOR '>'
 
 /*
@@ -75,6 +75,7 @@ private:
     byte positionSelected = 0;
 
     findBeginIndexPositions(m_startPosition, positionSelected, indicatorPosition);
+
     writePositions(positionSelected);
     writeIndicator(indicatorPosition);
 
@@ -169,7 +170,11 @@ public:
   virtual void show() {
     MinLcd::clearLcd();
     writeHeader();
-    onPositionSelect(waitForSelectPosition());
+
+    if (m_numPositions != 0)
+      onPositionSelect(waitForSelectPosition());
+    else
+      onPositionSelect(NOT_SELECTED_POSITION);
   }
 };
 
