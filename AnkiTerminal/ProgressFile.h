@@ -17,11 +17,13 @@ namespace ProgressFile
 {
   void createProgressFile(SdFat * sd, CSVFile * csv, const char * dictionaryFilename)
   {
-    FileTools::chdir(sd, DICTIONARY_DIR);
+    FileTools::chdirToDictionaryDir(sd);
 
-    unsigned int numLine = FileTools::calculateNumberLine(csv, dictionaryFilename);
+    csv->open(dictionaryFilename, O_RDWR);
+    unsigned int numLine = FileTools::calculateNumberLine(csv);
+    csv->close();
 
-    FileTools::chdir(sd, APPLICATION_DIR);
+    FileTools::chdirToApplicationDir(sd);
 
     int beginProbability = BEGIN_PROBABILITY_DEFAULT;
     ConfigurationFile::readConfigurationField(csv, beginProbability, CSV_LINE_CONFIG_LEARN_INIT_PROGRESS, CSV_FIELD_CONFIG_LEARN_INIT_PROGRESS_BEGIN_PROBABILITY);

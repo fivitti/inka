@@ -64,10 +64,10 @@
 #define PIN_LCD_CLK PIN_SPI_CLK
 
 //Switches pinout
-#define PIN_BUTTON A3   //Analog pin
+#define PIN_BUTTON A0   //Analog pin
 
 //Random pinout
-#define PIN_RANDOM A0   //Not used analog pin
+#define PIN_RANDOM A3   //Not used analog pin
 
 // LCD config
 #define LCD_CONTRAST_DEFAULT 0xB5 //0-254
@@ -75,13 +75,14 @@
 #define SPI_LCD_MAX_SPEED 2000000
 
 // SD config
-// These filename should have maximum size @FILENAME_LIMIT_SIZE = 13 in 8.3 format - 8 chars for name and 3 for extension. 1 for dot.
+// These filename should have maximum size @FILENAME_LIMIT_SIZE - 1= 12 in 8.3 format - 8 chars for name and 3 for extension. 1 for dot.
 #define SPI_SD_MAX_SPEED SPI_FULL_SPEED //SPI_QUARTER_SPEED //SPI_HALF_SPEED //It is enum from SdFat
 #define APPLICATION_DIR "inka"  //Directory in the root directory of SD. Here will be put config, session and progress files.
 #define DICTIONARY_DIR "dicts"  //Directory in the root directory of SD. Should exist and contain only right dictionary files.
 #define CONFIGURATION_FILENAME "config.csv" //This file contain all user settings.
 #define SESSION_SET_FILENAME "sess.ion"     //File with state current session. It will be create before session and delete after.
-#define FILENAME_LIMIT_SIZE 13 //For short filenames  //If you want change this limit you should change solution for open files and enabled support in SdFat
+#define TEMPORARY_SHUFFLE_FILENAME "shuffle.tmp" //File stored temporary shuffled result. It will be create at begin shuffling and replace with original at end.
+#define FILENAME_LIMIT_SIZE 13 //For short filenames  //If you want change this limit you should change solution for open files and enabled support in SdFat. One place reserved for null byte.
 
 
 // Buttons config
@@ -157,7 +158,7 @@
 // If user rate card as bad as much or more times then this card is hard (assuming that the other rates will be normal).
 #define CSV_FIELD_CONFIG_LEARN_SUMMARY_HARD_WHEN_NUMBER_BAD_ANSWER_WHEN_OTHERS_MEDIUM_DEFAULT 2
 // "Begin probability" parameters define probability set in new progress files.
-#define BEGIN_PROBABILITY_DEFAULT 50 //0-99%
+#define BEGIN_PROBABILITY_DEFAULT 99 //0-99%
 //LCD defaults are up
 
 //Constans for actions

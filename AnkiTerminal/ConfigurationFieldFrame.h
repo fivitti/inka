@@ -30,7 +30,7 @@ protected:
 
     SdFat * sd = new SdFat();;
     SdCardTools::initSdCard(sd);
-    FileTools::chdir(sd, APPLICATION_DIR);
+    FileTools::chdirToApplicationDir(sd);
     CSVFile * csv = new CSVFile();
 
     ConfigurationFile::editConfigurationField(csv, position_, m_configurationData->m_numLine, m_configurationData->m_numField);
@@ -55,7 +55,7 @@ public:
 
     SdFat * sd = new SdFat();;
     SdCardTools::initSdCard(sd);
-    FileTools::chdir(sd, APPLICATION_DIR);
+    FileTools::chdirToApplicationDir(sd);
     CSVFile * csv = new CSVFile();
 
     int currentValue;

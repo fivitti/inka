@@ -227,7 +227,7 @@ class Session
   void configure()
   {
     LcdTools::writeFullscreenMessage(F(LANG_STR_SESSION_INIT_MESSAGE));
-    FileTools::chdir(m_sd, APPLICATION_DIR);
+    FileTools::chdirToApplicationDir(m_sd);
     
     byte sessionConfiguration[CSV_LINE_CONFIG_LEARN_SESSION_SIZE];
     ConfigurationFile::readConfigurationLine(&m_csv, sessionConfiguration, CSV_LINE_CONFIG_LEARN_SESSION);

@@ -17,9 +17,7 @@ namespace ConfigurationFile
   // New configuration has default values (you can define its in Config.h)
   bool createConfigurationFile(SdFat * sd, CSVFile * csv)
   {
-    sd->chdir();
-    sd->mkdir(APPLICATION_DIR);
-    sd->chdir(APPLICATION_DIR);
+    FileTools::chdirToApplicationDir(sd);
 
     if (sd->exists(CONFIGURATION_FILENAME))
       return true;
@@ -137,7 +135,7 @@ namespace ConfigurationFile
   //Method remove exist configuration file and create new with default values.
   void resetConfigurationFile(SdFat * sd, CSVFile * csv)
   {
-    FileTools::chdir(sd, APPLICATION_DIR);
+    FileTools::chdirToApplicationDir(sd);
     sd->remove(CONFIGURATION_FILENAME);
     ConfigurationFile::createConfigurationFile(sd, csv);
   }

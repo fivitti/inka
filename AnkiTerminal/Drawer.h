@@ -8,6 +8,7 @@
 #include <SdFat.h>
 #include "Tools.h"
 #include "LcdTools.h"
+#include "FileTools.h"
 
 #define BUFFER_SIZE FILENAME_LIMIT_SIZE //buffer must be at least as high as filename
 #define BUFFER_SIZE_WITH_END_CHAR (FILENAME_LIMIT_SIZE + 1)
@@ -39,8 +40,7 @@ class Drawer
 
   bool readConfiguration()
   {
-    m_sd->chdir();
-    m_sd->chdir(APPLICATION_DIR);
+    FileTools::chdirToApplicationDir(m_sd);
     
     byte drawConfiguration[CSV_LINE_CONFIG_LEARN_DRAW_SIZE];
     ConfigurationFile::readConfigurationLine(&m_csv, drawConfiguration, CSV_LINE_CONFIG_LEARN_DRAW);
@@ -117,8 +117,7 @@ class Drawer
   // It may therefore happen, that the algoritm draw less number of cards then value this parameter.
   byte draw()
   {
-    m_sd->chdir();
-    m_sd->chdir(APPLICATION_DIR);
+    FileTools::chdirToApplicationDir(m_sd);
 
     if (m_sd->exists(SESSION_SET_FILENAME)) {
       m_csv.open(SESSION_SET_FILENAME, O_RDWR);
@@ -139,8 +138,7 @@ class Drawer
     progressFile.open(m_buffer, O_RDWR);
 
     progressFile.gotoBeginOfFile();
-    m_sd->chdir();
-    m_sd->chdir(DICTIONARY_DIR);
+    FileTools::chdirToDictionaryDir(m_sd);
     dictionaryFile.open(m_buffer, O_RDWR);
 
     byte drawingCard = 0;

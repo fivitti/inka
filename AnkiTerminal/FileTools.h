@@ -13,7 +13,18 @@ namespace FileTools
   void chdir(SdFat * sd, const char * directory)
   {
     sd->chdir();
+    sd->mkdir(directory);
     sd->chdir(directory);
+  }
+
+  void chdirToDictionaryDir(SdFat * sd)
+  {
+    chdir(sd, DICTIONARY_DIR);
+  }
+
+  void chdirToApplicationDir(SdFat * sd)
+  {
+    chdir(sd, APPLICATION_DIR);
   }
   
   // Check if in @directory exist @filename
@@ -31,16 +42,17 @@ namespace FileTools
   // Calculate number of line in file.
   // Required go to directory with file.
   // Lines was recognized by end of line character in UNIX style: '\n'
-  unsigned int calculateNumberLine(CSVFile * csv, const char * filename)
-  {
-    csv->open(filename, O_RDWR);
+  // At end set position of file to end of file
+  unsigned int calculateNumberLine(CSVFile * csv)
+  { 
     csv->gotoBeginOfFile();
     while (csv->nextLine())
       ; //Skip
     unsigned int numLine = csv->getNumberOfLine();
-    csv->close();
+
     return numLine + 1;
   }
+
 }
 
 

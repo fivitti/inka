@@ -37,13 +37,13 @@ private:
   // dictionary data.
   void removeSessionFileIfExist()
   {
-    FileTools::chdir(&sd, APPLICATION_DIR);
+    FileTools::chdirToApplicationDir(&sd);
     sd.remove(SESSION_SET_FILENAME);  // Return false if session file not exist
   }
   
   void saveInConfiguration(const char * fileNameDictionary)
   {
-    FileTools::chdir(&sd, APPLICATION_DIR);
+    FileTools::chdirToApplicationDir(&sd);
     CSVFile * csv = new CSVFile();
     ConfigurationFile::editConfigurationDictionaryName(csv, fileNameDictionary);
     delete csv;
@@ -84,7 +84,7 @@ protected:
 
     CSVFile * csv = new CSVFile();
 
-    FileTools::chdir(&sd, APPLICATION_DIR);
+    FileTools::chdirToApplicationDir(&sd);
     ConfigurationFile::readConfigurationDictionaryName(csv, buffer_, FILENAME_LIMIT_SIZE);
 
     delete csv;
