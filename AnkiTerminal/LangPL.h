@@ -23,8 +23,8 @@
 */
 
 // AccepDrawFrame
-#define LANG_STR_ACCEPT_DRAW_TITLE_FIRST_PART   " Użyć "                  //  0-12            Part of header    This and second part together should have 12 size. Don't remember about one space at end this string. This text isn't centered. You should manually add spaces for align.
-#define LANG_STR_ACCEPT_DRAW_TITLE_SECOND_PART  " kart?"                  //  0-12            Part of header    This and first part together should have 12 size. Don't remember about one space at begin this string.
+#define LANG_STR_ACCEPT_DRAW_TITLE_FIRST_PART   " Użyć "                  //  0-12            Part of header    This and second part together should have 12 size. Don't forget about one space at end this string. This text isn't centered. You should manually add spaces for align.
+#define LANG_STR_ACCEPT_DRAW_TITLE_SECOND_PART  " kart?"                  //  0-12            Part of header    This and first part together should have 12 size. Don't forget about one space at begin this string.
 // ChooseDictionaryFrame
 #define LANG_STR_INIT_DICTIONARY_MESSAGE        "Inicjuję"                //  14              Message           Popup
 // ChooseFileFrame
@@ -65,6 +65,7 @@
 #define LANG_STR_LCD                            "LCD"                     //  13              Header/position
 #define LANG_STR_DICTIONARY                     "Słowniki"                //  13              Header/position
 #define LANG_STR_START_LEARN_FLOW               "Rozpocznij"              //  14              Position
+#define LANG_STR_SHUFFLE_DICTIONARY             "Tasuj słownik"           //  14              Position
 #define LANG_STR_RESET_CONFIG                   "Resetowanie"             //  14              Position
 #define LANG_STR_APPLICATION_TITLE              LANG_STR_APPLICATION_TITLE_POPUP  //  14      Header
 // SdCardTools
@@ -77,9 +78,13 @@
 #define LANG_STR_SYMBOL_QUESTION                'P'                       //  1               Character
 #define LANG_STR_SYMBOL_ANSWER                  'O'                       //  1               Character
 #define LANG_STR_SESSION_INIT_MESSAGE           "Inicjuję sesję"          //  14              Message           Popup
+// Shuffler
+#define LANG_STR_SHUFFLE_DICTIONARY_IN_PROGRESS_MESSAGE "Tasuję słownik"  //  14              Message           Popup
+#define LANG_STR_SHUFFLE_PROGRESS_IN_PROGRESS_MESSAGE "Układam postęp  "  //  14              Message           Popup
 // Summary
 #define LANG_STR_SUMMARY_IN_PROGRESS_MESSAGE    "Podsumowuję"             //  14              Message           Popup
 #define LANG_STR_SUMMARY_END_SESSION_MESSAGE    "Koniec sesji"            //  14              Message           Popup
+#define LANG_STR_SUMMARY_CURRENT_PROGRESS_MESSAGE "Postęp: "              //  10              Message           Popup. Don't forget about one space at end this string.
 // YesNoAcceptFrame
 #define LANG_STR_YES                            "Tak"                     //  13              Position
 #define LANG_STR_NO                             "Nie"                     //  13              Position

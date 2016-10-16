@@ -31,7 +31,6 @@ namespace LcdTools
   }
 }
 
-#undef FULLSCREEN_MESSAGE_ROW
 #undef FULLSCREEN_HEADER
 #undef FULLSCREEN_HEADER_HEIGHT
 #endif //LcdTools_h

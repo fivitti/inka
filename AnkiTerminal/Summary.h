@@ -8,9 +8,13 @@
 #include "CSVSpecifications.h"
 #include "LcdTools.h"
 #include "Lang.h"
+#include "MinLcd.h"
 
 #define BUFFER_SIZE FILENAME_LIMIT_SIZE
 #define SAFE_BUFFER_SIZE (BUFFER_SIZE+1)
+
+#define AVERAGE_PROGRESS_MAXIMUM 100
+#define AVERAGE_PROGRESS_MAXIMUM_SIZE 3
 
 #define RETURN_IF_FALSE(status_) if(!(status_))return false;
 
@@ -36,6 +40,12 @@ class Summary
   byte m_limitForEasy;
   byte m_limitForHard;
 
+  // We want calculate average progress from all cards in dictionary
+  // and display it on the end of summary.
+  // This progress will not be accuracy when user abort summary in progress.
+  byte m_summaredCards;
+  unsigned int m_sumProgressProbabilitySummaredCards;
+
   void readConfigurationFile()
   {
     byte configuration[CSV_LINE_CONFIG_LEARN_SUMMARY_SIZE > CSV_LINE_CONFIG_LEARN_SESSION_SIZE ? CSV_LINE_CONFIG_LEARN_SUMMARY_SIZE : CSV_LINE_CONFIG_LEARN_SESSION_SIZE];
@@ -59,7 +69,7 @@ class Summary
   
   bool openFiles()
   {
-    m_sd->chdir(APPLICATION_DIR);
+    FileTools::chdirToApplicationDir(m_sd);
 
     RETURN_IF_FALSE(m_csvSession.open(SESSION_SET_FILENAME, O_RDWR));
     ConfigurationFile::readConfigurationDictionaryName(&m_csvProgress, m_buffer, BUFFER_SIZE);
@@ -116,6 +126,17 @@ class Summary
       return afterChange;
   }
 
+  void updateAverageProgress(byte cardProbability)
+  {
+    m_summaredCards += 1;
+    m_sumProgressProbabilitySummaredCards += cardProbability;
+  }
+
+  byte getAverageProgress()
+  {
+    return 100 - (m_sumProgressProbabilitySummaredCards / m_summaredCards);
+  }
+
   //Required gotoBeginOfField();
   //Edit current field in progress file.
   //@changeProbability is delta probability, not new value of field.
@@ -123,7 +144,9 @@ class Summary
   {
     m_csvProgress.readField(m_numBuffer, m_buffer, BUFFER_SIZE);
     m_csvProgress.gotoBeginOfField();
-    m_csvProgress.editField(saturateProbability(m_numBuffer, changeProbability));
+    byte newProgressProbability = saturateProbability(m_numBuffer, changeProbability);
+    m_csvProgress.editField(newProgressProbability);
+    updateAverageProgress(newProgressProbability);
   }
   
   //Edit current line in progress file.
@@ -237,6 +260,17 @@ class Summary
     }
     return true;
   }
+
+  void writeSummaryMessage()
+  {
+    LcdTools::writeFullscreenMessage(F(LANG_STR_SUMMARY_END_SESSION_MESSAGE));
+    MinLcd::lcdXY(0, FULLSCREEN_MESSAGE_ROW + 1);
+    MinLcd::lcdWriteCenteredString(F(LANG_STR_SUMMARY_CURRENT_PROGRESS_MESSAGE), MAX_CHARS_IN_ROW - AVERAGE_PROGRESS_MAXIMUM_SIZE - 1);
+    MinLcd::lcdWriteNumber(getAverageProgress());
+    MinLcd::lcdWriteCharacter('%');
+
+    delay(HUMAN_ERROR_DELAY);
+  }
   
   public:
   Summary(SdFat * sd) : m_sd(sd) 
@@ -251,12 +285,14 @@ class Summary
     executeImpl();
     disposeFiles();
     m_sd->remove(SESSION_SET_FILENAME);
-    LcdTools::writeFullscreenMessage(F(LANG_STR_SUMMARY_END_SESSION_MESSAGE));
-    delay(HUMAN_ERROR_DELAY);
+    writeSummaryMessage();
   }
 };
 
 #undef RETURN_IF_FALSE
+
+#undef AVERAGE_PROGRESS_MAXIMUM
+#undef AVERAGE_PROGRESS_MAXIMUM_SIZE
 
 #undef BUFFER_SIZE
 #undef SAFE_BUFFER_SIZE
