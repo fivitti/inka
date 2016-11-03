@@ -52,11 +52,11 @@
 #define PIN_SPI_MOSI 11
 #define PIN_SPI_MISO 12
 
-#define PIN_LCD_CS 2
+#define PIN_LCD_CS 3
 #define PIN_SD_CS 10
 
 // LCD pinout
-#define PIN_LCD_RST 3
+#define PIN_LCD_RST 2
 #define PIN_LCD_DC  4   
 #define PIN_LCD_BACKLIGHT 5 //Must be PWM pin
 #define PIN_LCD_CE PIN_LCD_CS
@@ -64,10 +64,10 @@
 #define PIN_LCD_CLK PIN_SPI_CLK
 
 //Switches pinout
-#define PIN_BUTTON A0   //Analog pin
+#define PIN_BUTTON A2   //Analog pin
 
 //Random pinout
-#define PIN_RANDOM A3   //Not used analog pin
+#define PIN_RANDOM A0   //Not used analog pin
 
 // LCD config
 #define LCD_CONTRAST_DEFAULT 0xB5 //0-254
