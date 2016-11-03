@@ -11,18 +11,21 @@
 #include "LcdConfigurationLineFrame.h"
 #include "ResetConfigFrame.h"
 #include "Lang.h"
+#include "Shuffler.h"
 
-#define FRAME_NUM_POSITION 8
+#define FRAME_NUM_POSITION 9
 #define START_ACTION 0
 
 //Should be in order
+#define POSITION_START START_ACTION
 #define POSITION_DICTIONARY 1
 #define POSITION_LCD 2
 #define POSITION_DRAW 3
 #define POSITION_SESSION 4
 #define POSITION_SUMMARY 5
 #define POSITION_INIT 6
-#define POSITION_RESET 7
+#define POSITION_SHUFFLE 7
+#define POSITION_RESET 8
 
 /*
  * Main menu of program.
@@ -47,6 +50,8 @@ protected:
     IFrameBase * frame;
     switch (position_)
     {
+    case POSITION_START:
+      return;
     case POSITION_DICTIONARY:
       frame = new ChooseDictionaryFrame(strDictionary);
       break;
@@ -92,6 +97,9 @@ protected:
       frame = new ConfigurationLineFrame(strInit, datas, CSV_LINE_CONFIG_LEARN_INIT_PROGRESS_SIZE);
       break;
     }
+    case POSITION_SHUFFLE:
+      Shuffler::ShuffleCurrentDictionary();
+      return;
     case POSITION_RESET:
     {
       frame = new ResetConfigFrame();
@@ -107,7 +115,7 @@ protected:
 
   void writePosition(byte index) {
     switch (index) {
-      case START_ACTION:
+      case POSITION_START:
         MinLcd::lcdWriteString(F(LANG_STR_START_LEARN_FLOW));
         break;
       case POSITION_DICTIONARY:
@@ -127,6 +135,9 @@ protected:
         break;
       case POSITION_INIT:
         MinLcd::lcdWriteString(strInit);
+        break;
+      case POSITION_SHUFFLE:
+        MinLcd::lcdWriteString(F(LANG_STR_SHUFFLE_DICTIONARY));
         break;
       case POSITION_RESET:
         MinLcd::lcdWriteString(F(LANG_STR_RESET_CONFIG));
@@ -150,12 +161,15 @@ public:
   ~RootFrame() {};
 };
 #undef FRAME_NUM_POSITION
+#undef POSITION_START
 #undef POSITION_DICTIONARY
 #undef POSITION_LCD
 #undef POSITION_DRAW
 #undef POSITION_SESSION
 #undef POSITION_SUMMARY
 #undef POSITION_INIT
+#undef POSITION_SHUFFLE
+#undef POSITION_RESET
 #endif //RootFrame.h
 
 
