@@ -114,7 +114,7 @@ class Summary
     return true;
   }
 
-  //Add @change to @beginProbability to truncate the value to range [0; 99] [@CSV_FIELD_PROGRESS_PROBABILITY_MINIMUM; @CSV_FIELD_PROGRESS_PROBABILITY_MAXIMUM]
+  //Add @change to @beginProbability to saturate the value to range [0; 99] [@CSV_FIELD_PROGRESS_PROBABILITY_MINIMUM; @CSV_FIELD_PROGRESS_PROBABILITY_MAXIMUM]
   byte saturateProbability(byte beginProbability, int change)
   {
     const int afterChange = beginProbability + change;

@@ -8,6 +8,7 @@
 #include "LcdTools.h"
 #include "ConfigurationFile.h"
 #include "SDCardTools.h"
+#include "YesNoAcceptFrame.h"
 
 #define MAXIMUM_LINE_TO_SHUFFLE 255
 #define MINIMUM(a,b) (a<b?a:b)
@@ -49,8 +50,7 @@ namespace Shuffler
     byte numberLineToShuffle = 0;
 
     CSVFile shuffleResult;
-    shuffleResult.open(TEMPORARY_SHUFFLE_FILENAME, O_RDWR | O_CREAT);
-    shuffleResult.truncate(0);  //Remove file content if exist.
+    shuffleResult.open(TEMPORARY_SHUFFLE_FILENAME, O_RDWR | O_CREAT | O_TRUNC);
 
     while (lineNumbers > 0)
     {
@@ -62,14 +62,17 @@ namespace Shuffler
 
     // Slowly but less memory.
     FileTools::copyFile(&shuffleResult, &fileToShuffle);
-//    fileToShuffle.remove();
-//    shuffleResult.rename(shuffleResult.cwd(), filenameToShuffle);
     fileToShuffle.close();
     shuffleResult.close();
   }
 
   void ShuffleCurrentDictionary()
   {
+    YesNoAcceptFrame shuffleConfirm(F(LANG_STR_SHUFFLE_CONFIRM));
+    shuffleConfirm.show();
+    if (shuffleConfirm.getSelectedAction() != ACCEPT_ACTION)
+      return;
+
     LcdTools::writeFullscreenMessage(F(LANG_STR_SHUFFLE_PROGRESS_IN_PROGRESS_MESSAGE));
 
     SdFat sd;
@@ -86,7 +89,9 @@ namespace Shuffler
       CSVFile csv;
       if (!ConfigurationFile::readConfigurationDictionaryName(&csv, buffer_, FILENAME_LIMIT_SIZE))
         return;
+      csv.open(buffer_, O_RDWR);
       lineNumbers = FileTools::calculateNumberLine(&csv);
+      csv.close();
     }
    
     // Shuffle progress

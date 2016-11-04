@@ -32,18 +32,9 @@ private:
     ProgressFile::createProgressFile(&sd, csv, fileName);
     delete csv;
   }
-
-  // When we change dictionary we remove session file with previous
-  // dictionary data.
-  void removeSessionFileIfExist()
-  {
-    FileTools::chdirToApplicationDir(&sd);
-    sd.remove(SESSION_SET_FILENAME);  // Return false if session file not exist
-  }
   
   void saveInConfiguration(const char * fileNameDictionary)
   {
-    FileTools::chdirToApplicationDir(&sd);
     CSVFile * csv = new CSVFile();
     ConfigurationFile::editConfigurationDictionaryName(csv, fileNameDictionary);
     delete csv;
@@ -57,8 +48,11 @@ protected:
 
     const char * fileName = getFileName(position_);
     generateProgressFile(fileName);
+    FileTools::chdirToApplicationDir(&sd);
     saveInConfiguration(fileName);
-    removeSessionFileIfExist();
+    // When we change dictionary we remove session file with previous
+    // dictionary data.
+    sd.remove(SESSION_SET_FILENAME);  // Return false if session file not exist
   }
 
   byte findStartPosition(const char * dictName)

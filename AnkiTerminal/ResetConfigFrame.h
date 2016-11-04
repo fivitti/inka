@@ -26,7 +26,7 @@ protected:
       SdFat sd;
       SdCardTools::initSdCard(&sd);
       CSVFile csv;
-      ConfigurationFile::resetConfigurationFile(&sd, &csv);
+      ConfigurationFile::createConfigurationFile(&sd, &csv, true);
     }
   }
 

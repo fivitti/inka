@@ -89,9 +89,7 @@ protected:
 
   void initSD(const char * dirName) {
     SdCardTools::initSdCard(&sd);
-    sd.chdir();
-    sd.mkdir(dirName);
-    sd.chdir(dirName);
+    FileTools::chdir(&sd, dirName);
   }
 
 public:

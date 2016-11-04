@@ -16,14 +16,16 @@ namespace ConfigurationFile
 {
   // Method for create new configuration file (if exist then do nothing).
   // New configuration has default values (you can define its in Config.h)
-  bool createConfigurationFile(SdFat * sd, CSVFile * csv)
+  // If @resetIfExist is true ethod remove exist configuration file and create
+  // new with default values.
+  bool createConfigurationFile(SdFat * sd, CSVFile * csv, bool resetIfExist=false)
   {
     FileTools::chdirToApplicationDir(sd);
 
     if (sd->exists(CONFIGURATION_FILENAME))
       return true;
 
-    csv->open(CONFIGURATION_FILENAME, O_RDWR | O_CREAT);
+    csv->open(CONFIGURATION_FILENAME, O_RDWR | O_CREAT | resetIfExist ? O_RDWR : 0);
 
     csv->gotoBeginOfFile();
     csv->addField(MAX_CARD_PER_SESSION_DEFAULT, CSV_FIELD_CONFIG_LEARN_DRAW_MAXIMUM_CARD_PER_SESSION_SIZE);
@@ -139,14 +141,6 @@ namespace ConfigurationFile
     csv->addField(fileNameDictionary);
     csv->truncate(csv->curPosition());  //Current position is first position after dictionary name
     csv->close();
-  }
-
-  //Method remove exist configuration file and create new with default values.
-  void resetConfigurationFile(SdFat * sd, CSVFile * csv)
-  {
-    FileTools::chdirToApplicationDir(sd);
-    sd->remove(CONFIGURATION_FILENAME);
-    ConfigurationFile::createConfigurationFile(sd, csv);
   }
 }
 

@@ -42,7 +42,7 @@ namespace SdCardTools {
     {
       WriteSdError(sd);
 
-      #if _DEBUG == DEBUG_OPTION_SD
+      #if _DEBUG & DEBUG_OPTION_SD
       sd->errorPrint();
       sd->initErrorPrint();
       #endif //_DEBUG

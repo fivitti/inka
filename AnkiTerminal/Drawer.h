@@ -111,20 +111,10 @@ class Drawer
   {
     FileTools::chdirToApplicationDir(m_sd);
 
-    if (m_sd->exists(SESSION_SET_FILENAME)) {
-      m_csv.open(SESSION_SET_FILENAME, O_RDWR);
-      m_csv.remove();
-      m_csv.close();
-    }
-//    else if (!sd->exists(m_buffer) {
-//        //Missing progress file  
-//        //Not implemented
-//    }
-
     CSVFile progressFile;
     CSVFile dictionaryFile;
 
-    m_csv.open(SESSION_SET_FILENAME, O_RDWR | O_CREAT); 
+    m_csv.open(SESSION_SET_FILENAME, O_RDWR | O_CREAT | O_TRUNC);
     
     m_csv.gotoBeginOfFile();
     progressFile.open(m_buffer, O_RDWR);

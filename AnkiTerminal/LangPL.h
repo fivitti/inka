@@ -81,6 +81,7 @@
 // Shuffler
 #define LANG_STR_SHUFFLE_DICTIONARY_IN_PROGRESS_MESSAGE "Tasuję słownik"  //  14              Message           Popup
 #define LANG_STR_SHUFFLE_PROGRESS_IN_PROGRESS_MESSAGE "Układam postęp  "  //  14              Message           Popup
+#define LANG_STR_SHUFFLE_CONFIRM                "Czy na pewno?"           //  14              Header            Popup yes/no
 // Summary
 #define LANG_STR_SUMMARY_IN_PROGRESS_MESSAGE    "Podsumowuję"             //  14              Message           Popup
 #define LANG_STR_SUMMARY_END_SESSION_MESSAGE    "Koniec sesji"            //  14              Message           Popup

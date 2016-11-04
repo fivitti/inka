@@ -75,7 +75,7 @@
 #define SPI_LCD_MAX_SPEED 2000000
 
 // SD config
-// These filename should have maximum size @FILENAME_LIMIT_SIZE - 1= 12 in 8.3 format - 8 chars for name and 3 for extension. 1 for dot.
+// These filename should have maximum size @FILENAME_LIMIT_SIZE - 1 = 12 chars in 8.3 format - 8 chars for name and 3 for extension. 1 for dot.
 #define SPI_SD_MAX_SPEED SPI_FULL_SPEED //SPI_QUARTER_SPEED //SPI_HALF_SPEED //It is enum from SdFat
 #define APPLICATION_DIR "inka"  //Directory in the root directory of SD. Here will be put config, session and progress files.
 #define DICTIONARY_DIR "dicts"  //Directory in the root directory of SD. Should exist and contain only right dictionary files.
@@ -108,10 +108,14 @@
 #endif //_DEBUG
 
 #define DEBUG_OPTION_DISABLED 0
-#define DEBUG_OPTION_CUSTOM 1
-#define DEBUG_OPTION_SD 2
+#define DEBUG_OPTION_SERIAL 2
+#define DEBUG_OPTION_SD 4
+#define DEBUG_OPTION_MEMORY 8
 
 #define _DEBUG DEBUG_OPTION_DISABLED
+
+// Enabled features - for debug
+#define ENABLE_LEARN_FLOW true
 
 // Learn config - default values
 // "Max card per session" parameter determine the maximum number card will be drawn for single session.
@@ -174,6 +178,13 @@
 #define SHUTDOWN_ACTION NOT_SELECTED_POSITION
 //Useful macro
 #define RETURN_WHEN_SHUTDOWN(status_) if((status_)==SHUTDOWN_ACTION)return SHUTDOWN_ACTION;
+
+// All debug option should be disable in release
+#if _DEBUG == DEBUG_OPTION_DISABLED
+#if ! ENABLE_LEARN_FLOW
+#warning "Learn flow disabled"
+#endif //ENABLE_LEARN_FLOW
+#endif //_DEBUG
 
 void setupPinout() {
   pinMode(PIN_LCD_RST, OUTPUT);

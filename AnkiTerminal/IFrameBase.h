@@ -33,7 +33,7 @@ protected:
   byte m_startPosition{0};
   //This method is called when indicator change its positions (when user press UP and DOWN buttons).
   //This method is called with current selected position number (NOT with position indicatior).
-  virtual void onChangeIndicatorPosition(byte position) {}
+  virtual void onChangeIndicatorPosition(byte position) { }
 
 private:
   //Write indicator. This method should be called with number of position indicator (NOT with selected position).
@@ -82,7 +82,7 @@ private:
     positionSelected = m_startPosition;
 
     Buttons::waitForUnpress();
-
+    
     while (true) {
       switch(Buttons::waitForKey()) {
         case BUTTON_UP:
@@ -100,8 +100,8 @@ private:
           }
           else if (positionSelected == 0)
           {
-            writePositions(((m_numPositions - MAX_POSITIONS_ON_SCREEN + (m_numPositions % MAX_POSITIONS_ON_SCREEN)) / MAX_POSITIONS_ON_SCREEN) * MAX_POSITIONS_ON_SCREEN);
-            indicatorPosition = m_numPositions % MAX_POSITIONS_ON_SCREEN == 0 ? MAX_POSITIONS_ON_SCREEN - 1 : (m_numPositions % MAX_POSITIONS_ON_SCREEN) - 1;
+            writePositions((m_numPositions / MAX_POSITIONS_ON_SCREEN) * MAX_POSITIONS_ON_SCREEN);
+            indicatorPosition = (m_numPositions - 1) % MAX_POSITIONS_ON_SCREEN;
             positionSelected = m_numPositions - 1;
             onChangeIndicatorPosition(positionSelected);
           }

@@ -55,7 +55,7 @@ namespace FileTools
 
   void copyFile(SdBaseFile * sourceFile, SdBaseFile * targetFile)
   {
-    sourceFile->seekSet(0);
+    sourceFile->rewind();
     targetFile->truncate(0);
     int chVal = sourceFile->read();
     while (chVal >= 0)

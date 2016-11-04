@@ -1,5 +1,10 @@
 #include <SPI.h>
 #include "Config.h"
+
+#if DEBUG_OPTION_MEMORY
+#include <MemoryFree.h>
+#endif //DEBUG_OPTION_MEMORY
+
 #include "MinLcd.h"
 #include "LcdTools.h"
 #include <SdFat.h>
@@ -8,10 +13,6 @@
 #include "SdCardTools.h"
 #include "RootFrame.h"
 #include "LearnFlow.h"
-
-#if _DEBUG
-//#include <MemoryFree.h> //Disable for release
-#endif
 
 void setup() {  
   setupPinout();
@@ -54,7 +55,7 @@ void loop() {
     RootFrame frame;
     frame.show();
 
-    if (frame.getSelectedAction() != START_ACTION)
+    if (frame.getSelectedAction() != START_ACTION || !ENABLE_LEARN_FLOW)
       return;
     
     //Start learn program
