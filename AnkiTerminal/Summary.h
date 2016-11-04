@@ -72,7 +72,7 @@ class Summary
     FileTools::chdirToApplicationDir(m_sd);
 
     RETURN_IF_FALSE(m_csvSession.open(SESSION_SET_FILENAME, O_RDWR));
-    ConfigurationFile::readConfigurationDictionaryName(&m_csvProgress, m_buffer, BUFFER_SIZE);
+    RETURN_IF_FALSE(ConfigurationFile::readConfigurationDictionaryName(&m_csvProgress, m_buffer, BUFFER_SIZE));
     RETURN_IF_FALSE(m_csvProgress.open(m_buffer, O_RDWR));
     return true;
   }

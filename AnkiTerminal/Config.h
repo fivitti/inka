@@ -106,7 +106,12 @@
 #ifdef _DEBUG
 #undef _DEBUG
 #endif //_DEBUG
-#define _DEBUG 0
+
+#define DEBUG_OPTION_DISABLED 0
+#define DEBUG_OPTION_CUSTOM 1
+#define DEBUG_OPTION_SD 2
+
+#define _DEBUG DEBUG_OPTION_DISABLED
 
 // Learn config - default values
 // "Max card per session" parameter determine the maximum number card will be drawn for single session.

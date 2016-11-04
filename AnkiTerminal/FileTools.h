@@ -53,6 +53,18 @@ namespace FileTools
     return numLine + 1;
   }
 
+  void copyFile(SdBaseFile * sourceFile, SdBaseFile * targetFile)
+  {
+    sourceFile->seekSet(0);
+    targetFile->truncate(0);
+    int chVal = sourceFile->read();
+    while (chVal >= 0)
+    {
+      targetFile->write((char)chVal);
+      chVal = sourceFile->read();
+    }
+  }
+
 }
 
 

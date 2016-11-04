@@ -50,15 +50,7 @@ class Drawer
     m_repeatCardNum = drawConfiguration[CSV_FIELD_CONFIG_LEARN_DRAW_REPEAT_NUMBER];
 
     //Temporary read dictionary name to buffer
-    ConfigurationFile::readConfigurationDictionaryName(&m_csv, m_buffer, BUFFER_SIZE);
-
-    if (StringTools::isEmpty(m_buffer))
-    {
-      LcdTools::writeFullscreenMessage(F(LANG_STR_MISSING_DICTIONARY_MESSAGE));
-      delay(HUMAN_ERROR_DELAY);
-      return false;
-    }
-    return true;
+    return ConfigurationFile::readConfigurationDictionaryName(&m_csv, m_buffer, BUFFER_SIZE);
   }
 
   byte drawTypeForDrawing()

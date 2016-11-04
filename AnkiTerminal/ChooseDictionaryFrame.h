@@ -84,16 +84,15 @@ protected:
 
     CSVFile * csv = new CSVFile();
 
-    FileTools::chdirToApplicationDir(&sd);
-    ConfigurationFile::readConfigurationDictionaryName(csv, buffer_, FILENAME_LIMIT_SIZE);
+    FileTools::chdirToApplicationDir(&sd);    
 
-    delete csv;
-
-    if (!StringTools::isEmpty(buffer_))
+    if (ConfigurationFile::readConfigurationDictionaryName(csv, buffer_, FILENAME_LIMIT_SIZE))
     {
       setStartPosition(findStartPosition(buffer_));
     }
 
+	delete csv;
+	
     return true;
   }
   

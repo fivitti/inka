@@ -6,6 +6,7 @@
 #include "Config.h"
 #include "CSVSpecifications.h"
 #include "FileTools.h"
+#include "LcdTools.h"
 
 /*
  * Utilites for work with configuration file.
@@ -91,12 +92,20 @@ namespace ConfigurationFile
   //at the buffer will be set to null char.
   //Required set SD to application directory
   //Required bufferOut of size greater or equals of filename lenght
-  void readConfigurationDictionaryName(CSVFile * csv, char * bufferOut, const byte bufferSize)
+  bool readConfigurationDictionaryName(CSVFile * csv, char * bufferOut, const byte bufferSize)
   {
     csv->open(CONFIGURATION_FILENAME, O_RDWR);
  
     csv->gotoLine(CSV_LINE_CONFIG_DICTIONARY);
     byte readingBytes = csv->readField(bufferOut, bufferSize);
+    csv->close();
+    
+    if (readingBytes == 0)
+    {
+      LcdTools::writeFullscreenMessage(F(LANG_STR_MISSING_DICTIONARY_MESSAGE));
+      delay(HUMAN_ERROR_DELAY);
+      return false;
+    }
     
     //Clean end buffer bytes
     readingBytes = bufferSize - readingBytes;
@@ -106,7 +115,7 @@ namespace ConfigurationFile
       readingBytes -= 1;
     }
 
-    csv->close();
+    return true;
   }
 
   //Only for numberic field

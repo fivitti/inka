@@ -24,7 +24,7 @@ void setup() {
   SPI.setBitOrder(MSBFIRST);
   #endif //SPI_USE_TRANSACTION
 
-  #if _DEBUG
+  #if _DEBUG != DEBUG_OPTION_DISABLED 
   Serial.begin(9600); //<-- Disable for release
   while (!Serial);
   Serial.println(F("DEBUG MODE"));

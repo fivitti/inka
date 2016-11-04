@@ -28,9 +28,8 @@ namespace Shuffler
       fileToShuffle->gotoLine(fromLine + randomGenerator.next());
       do
       {
-        shuffledFile->addField();
         fileToShuffle->copyField(shuffledFile);
-      } while (fileToShuffle->nextField());
+      } while (fileToShuffle->nextField() && shuffledFile->addField());
       
       //If isn't last line. The last CSV file must not contain end line character.
       if (lineToShuffle > 0)
@@ -39,8 +38,13 @@ namespace Shuffler
   }
   
   // File should be open
-  void Shuffle(CSVFile * fileToShuffle, char * filenameToShuffle, unsigned lineNumbers, byte seed)
+  void Shuffle(char * filenameToShuffle, unsigned lineNumbers, byte seed)
   {
+    CSVFile fileToShuffle;
+
+    if (!fileToShuffle.open(filenameToShuffle, O_RDWR))
+      return;
+    
     unsigned int currentShuffleLine = 0;
     byte numberLineToShuffle = 0;
 
@@ -51,14 +55,16 @@ namespace Shuffler
     while (lineNumbers > 0)
     {
       numberLineToShuffle = MINIMUM(lineNumbers, MAXIMUM_LINE_TO_SHUFFLE);
-      ShufflePart(fileToShuffle, &shuffleResult, currentShuffleLine, numberLineToShuffle, seed);
+      ShufflePart(&fileToShuffle, &shuffleResult, currentShuffleLine, numberLineToShuffle, seed);
       currentShuffleLine += numberLineToShuffle;
       lineNumbers -= numberLineToShuffle;
     }
-    
-    fileToShuffle->close();
-    fileToShuffle->remove();
-    shuffleResult.rename(shuffleResult.cwd(), filenameToShuffle);
+
+    // Slowly but less memory.
+    FileTools::copyFile(&shuffleResult, &fileToShuffle);
+//    fileToShuffle.remove();
+//    shuffleResult.rename(shuffleResult.cwd(), filenameToShuffle);
+    fileToShuffle.close();
     shuffleResult.close();
   }
 
@@ -67,29 +73,28 @@ namespace Shuffler
     LcdTools::writeFullscreenMessage(F(LANG_STR_SHUFFLE_PROGRESS_IN_PROGRESS_MESSAGE));
 
     SdFat sd;
-    CSVFile csv;
+    
     char buffer_[FILENAME_LIMIT_SIZE + 1];
     buffer_[FILENAME_LIMIT_SIZE] = '\0';
     byte seed = analogRead(PIN_RANDOM);
+    unsigned int lineNumbers = 0;
 
     SdCardTools::initSdCard(&sd);
     FileTools::chdirToApplicationDir(&sd);
-    ConfigurationFile::readConfigurationDictionaryName(&csv, buffer_, FILENAME_LIMIT_SIZE);
-
-    if (!csv.open(buffer_, O_RDWR))
-      return;
-
-    unsigned int lineNumbers = FileTools::calculateNumberLine(&csv);
+    
+    {
+      CSVFile csv;
+      if (!ConfigurationFile::readConfigurationDictionaryName(&csv, buffer_, FILENAME_LIMIT_SIZE))
+        return;
+      lineNumbers = FileTools::calculateNumberLine(&csv);
+    }
+   
     // Shuffle progress
-    Shuffle(&csv, buffer_, lineNumbers, seed);
-    // Shuffle dictionary
-    if (!csv.open(buffer_, O_RDWR))
-      return;
-
+    Shuffle(buffer_, lineNumbers, seed);
     // Shuffle dictionary
     FileTools::chdirToDictionaryDir(&sd);
     LcdTools::writeFullscreenMessage(F(LANG_STR_SHUFFLE_DICTIONARY_IN_PROGRESS_MESSAGE));
-    Shuffle(&csv, buffer_, lineNumbers, seed);
+    Shuffle(buffer_, lineNumbers, seed);
   }
 }
 
