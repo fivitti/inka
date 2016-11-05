@@ -1,10 +1,18 @@
 #include <SPI.h>
 #include "Config.h"
 
-#if DEBUG_OPTION_MEMORY
-#include <MemoryFree.h>
+#if _DEBUG & DEBUG_OPTION_MEMORY
+#include <SdFatUtil.h>
 #endif //DEBUG_OPTION_MEMORY
 
+#if _DEBUG & DEBUG_OPTION_MINIMAL_SERIAL
+#ifndef UDR0
+#error "Minimal serial not allowed";
+#endif //UDR0
+#include <MinimumSerial.h>
+MinimumSerial MiniSerial;
+#endif //DEBUG_OPTION_MINIMAL_SERIAL
+  
 #include "MinLcd.h"
 #include "LcdTools.h"
 #include <SdFat.h>
@@ -25,11 +33,16 @@ void setup() {
   SPI.setBitOrder(MSBFIRST);
   #endif //SPI_USE_TRANSACTION
 
-  #if _DEBUG != DEBUG_OPTION_DISABLED 
+  #if _DEBUG & DEBUG_OPTION_SERIAL 
   Serial.begin(9600); //<-- Disable for release
   while (!Serial);
   Serial.println(F("DEBUG MODE"));
-  #endif //_DEBUG
+  #endif //DEBUG_OPTION_SERIAL
+  
+  #if _DEBUG & DEBUG_OPTION_MINIMAL_SERIAL  
+  MiniSerial.begin(9600);
+  MiniSerial.println(F("DEBUG MODE"));
+  #endif //DEBUG_OPTION_MINIMAL_SERIAL
 
   SdFat sd;
   CSVFile csvFile;
@@ -50,14 +63,16 @@ void setup() {
   MinLcd::setupLcd(lcdConfiguration[CSV_FIELD_CONFIG_LCD_CONTRAST], lcdConfiguration[CSV_FIELD_CONFIG_LCD_BACKLIGHT]);
 }
 
-void loop() {  
+void loop() {
+  #if ENABLE_ROOT_FRAME
     //Show main menu
     RootFrame frame;
     frame.show();
 
-    if (frame.getSelectedAction() != START_ACTION || !ENABLE_LEARN_FLOW)
+    if (frame.getSelectedAction() != START_ACTION)
       return;
-    
+  #endif //ENABLE_ROOT_FRAME
+  #if ENABLE_LEARN_FLOW
     //Start learn program
     SdFat * sd = new SdFat();
     SdCardTools::initSdCard(sd);
@@ -65,5 +80,6 @@ void loop() {
     LearnFlow::performSessionLearn(sd);
 
     delete sd;
+  #endif //ENABLE_LEARN_FLOW
 }
 

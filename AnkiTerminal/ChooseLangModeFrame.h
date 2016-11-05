@@ -17,7 +17,7 @@ public:
   ~ChooseLangModeFrame() {}
 
 protected:
-  virtual void writePosition(byte index) override
+  virtual void writePosition(const byte index) override
   {
     switch (index)
     {

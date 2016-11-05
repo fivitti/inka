@@ -6,7 +6,7 @@
 struct ConfigurationData
 {
 private:
-  static byte getMaximum(byte size)
+  static const byte getMaximum(const byte size)
   {
     int power = pow(10, size);
     return power < MAX_SELECTED_POSITION ? power : MAX_SELECTED_POSITION;

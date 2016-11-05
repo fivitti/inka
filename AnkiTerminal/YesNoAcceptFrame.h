@@ -16,7 +16,7 @@
 class YesNoAcceptFrame : public AbstractSelectFrame {
   
   protected:
-  void writePosition(byte index) override {
+  void writePosition(const byte index) override {
     switch (index) {
       case ACCEPT_ACTION:
         MinLcd::lcdWriteString(F(LANG_STR_YES));

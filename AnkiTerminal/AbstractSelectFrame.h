@@ -11,12 +11,12 @@ private:
   byte positionSelected = NOT_SELECTED_POSITION;
 
 protected:
-  void onPositionSelect(byte position_) override {
+  void onPositionSelect(const byte position_) override {
     positionSelected = position_;
   }
   
 public:
-  byte getSelectedAction() {
+  byte getSelectedAction() const {
     return positionSelected;
   }
 };

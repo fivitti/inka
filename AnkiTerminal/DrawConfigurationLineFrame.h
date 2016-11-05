@@ -13,7 +13,7 @@
 class DrawConfigurationLineFrame : public ConfigurationLineFrame
 {
 protected:
-  virtual void onPositionSelect(byte position_) override
+  virtual void onPositionSelect(const byte position_) override
   {
     if (position_ == NOT_SELECTED_POSITION)
       return;
@@ -32,7 +32,7 @@ protected:
   }
 
 public:
-  DrawConfigurationLineFrame(const __FlashStringHelper * header, ConfigurationData * configurationDatas, byte configurationDatasSize) : ConfigurationLineFrame(header, configurationDatas, configurationDatasSize)
+  DrawConfigurationLineFrame(const __FlashStringHelper * header, const ConfigurationData * configurationDatas, const byte configurationDatasSize) : ConfigurationLineFrame(header, configurationDatas, configurationDatasSize)
   {}
 };
 

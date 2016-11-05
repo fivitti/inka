@@ -31,7 +31,7 @@
  */
 namespace Buttons
 {
-  byte getButtonNumber(int reading) {
+  byte getButtonNumber(const int reading) {
     if (reading < DOWN_TRESHOLD_BUTTON)
       return BUTTON_NOT_PRESSED;
     else if (reading < LOW_MENU_BUTTON)

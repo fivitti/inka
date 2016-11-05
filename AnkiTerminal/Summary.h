@@ -30,21 +30,21 @@ class Summary
   CSVFile m_csvSession;
 
   char m_buffer[SAFE_BUFFER_SIZE];
-  int m_numBuffer;
+  int m_numBuffer {0};
 
-  int m_easyDecreaseProbability;
-  int m_mediumDecreaseProbability;
-  int m_hardIncreaseProbability;
-  int m_forgetIncreaseProbabilty;
+  int m_easyDecreaseProbability {0};
+  int m_mediumDecreaseProbability {0};
+  int m_hardIncreaseProbability {0};
+  int m_forgetIncreaseProbabilty {0};
 
-  byte m_limitForEasy;
-  byte m_limitForHard;
+  byte m_limitForEasy {0};
+  byte m_limitForHard {0};
 
   // We want calculate average progress from all cards in dictionary
   // and display it on the end of summary.
   // This progress will not be accuracy when user abort summary in progress.
-  byte m_summaredCards;
-  unsigned int m_sumProgressProbabilitySummaredCards;
+  unsigned int m_summaredCards{0};
+  unsigned long m_sumProgressProbabilitySummaredCards{0};
 
   void readConfigurationFile()
   {
@@ -96,26 +96,15 @@ class Summary
   // first not saved line in session file. Else set pointer at begin of file.
   bool checkSummaryInProgressAndSetPointerAtBeginFirstNotDeletedLine()
   {
-    m_csvSession.gotoBeginOfFile();
-
-    //If first line is not removed then summary is not beggining
-    if (!m_csvSession.isLineMarkedAsDelete())
-    {
-      m_csvSession.gotoBeginOfLine();
-      return false;
-    }
-
-    //Else we set pointer to begin first not removed line
-    while (m_csvSession.nextLine())
-    { }
-
-    m_csvSession.gotoBeginOfLine();
-    
-    return true;
+    m_csvSession.rewind();
+    bool inProgress = m_csvSession.isLineMarkedAsDelete();
+    //We set pointer on the begin first not removed line
+    m_csvSession.gotoBeginOfFile();  
+    return inProgress;
   }
 
   //Add @change to @beginProbability to saturate the value to range [0; 99] [@CSV_FIELD_PROGRESS_PROBABILITY_MINIMUM; @CSV_FIELD_PROGRESS_PROBABILITY_MAXIMUM]
-  byte saturateProbability(byte beginProbability, int change)
+  byte saturateProbability(const byte beginProbability, const int change)
   {
     const int afterChange = beginProbability + change;
     if (afterChange < CSV_FIELD_PROGRESS_PROBABILITY_MINIMUM)
@@ -126,13 +115,13 @@ class Summary
       return afterChange;
   }
 
-  void updateAverageProgress(byte cardProbability)
+  void updateAverageProgress(const byte cardProbability)
   {
     m_summaredCards += 1;
     m_sumProgressProbabilitySummaredCards += cardProbability;
   }
 
-  byte getAverageProgress()
+  byte getAverageProgress() const
   {
     return 100 - (m_sumProgressProbabilitySummaredCards / m_summaredCards);
   }
@@ -140,7 +129,7 @@ class Summary
   //Required gotoBeginOfField();
   //Edit current field in progress file.
   //@changeProbability is delta probability, not new value of field.
-  void editProgressField(int changeProbability)
+  void editProgressField(const int changeProbability)
   {
     m_csvProgress.readField(m_numBuffer, m_buffer, BUFFER_SIZE);
     m_csvProgress.gotoBeginOfField();
@@ -151,7 +140,7 @@ class Summary
   
   //Edit current line in progress file.
   //@type specify field in line to edit.
-  void editProgressLine(int changeProbability, byte type)
+  void editProgressLine(const int changeProbability, const byte type)
   {
     if (type == DRAW_MODE_FIRST_LANG || type == DRAW_MODE_BOTH_LANG)
     {
@@ -189,7 +178,7 @@ class Summary
   }
 
   //Return change probability value from repeats in session
-  int getChangeProbability(byte totalRepeats)
+  int getChangeProbability(const byte totalRepeats) const
   {
     if (totalRepeats <= m_limitForEasy)
     {
@@ -261,7 +250,7 @@ class Summary
     return true;
   }
 
-  void writeSummaryMessage()
+  void writeSummaryMessage() const
   {
     LcdTools::writeFullscreenMessage(F(LANG_STR_SUMMARY_END_SESSION_MESSAGE));
     MinLcd::lcdXY(0, FULLSCREEN_MESSAGE_ROW + 1);

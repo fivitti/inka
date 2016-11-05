@@ -19,7 +19,7 @@ private:
 
 protected:
 
-  virtual void onPositionSelect(byte position_) override
+  virtual void onPositionSelect(const byte position_) override
   {
     if (position_ == NOT_SELECTED_POSITION)
       return;

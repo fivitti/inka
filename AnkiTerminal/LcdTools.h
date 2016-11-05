@@ -14,7 +14,7 @@ namespace LcdTools
 {
   //Write fullscreen message with header and centered text message in line @FULLSCREEN_MESSAGE_ROW.
   //If @keepHeader is false the current header will be clear and will be write default header @FULLSCREEN_HEADER.
-  void writeFullscreenMessage(const __FlashStringHelper * message, bool keepHeader=false)
+  void writeFullscreenMessage(const __FlashStringHelper * message, const bool keepHeader=false)
   {
     if (keepHeader)
     {

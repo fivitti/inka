@@ -63,7 +63,7 @@ class LFSR
   //  @seed - It should be equals or greater then 1. (Never 0!) Seed should be equals or less then @maxExcluded.
   //  @maxExcluded - This algorithm draw numbers from 0 to @maxExcluded - 1.
   //                 @maxExcluded cannot be draw.
-  void setup(byte seed, byte maxExcluded)
+  void setup(const byte seed, const byte maxExcluded)
   {
     m_previous = seed == 0 ? 1 : seed;
     m_maxExcluded = maxExcluded;

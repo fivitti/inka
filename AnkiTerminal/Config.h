@@ -108,14 +108,17 @@
 #endif //_DEBUG
 
 #define DEBUG_OPTION_DISABLED 0
-#define DEBUG_OPTION_SERIAL 2
-#define DEBUG_OPTION_SD 4
-#define DEBUG_OPTION_MEMORY 8
+#define DEBUG_OPTION_MINIMAL_SERIAL 2
+#define DEBUG_OPTION_SERIAL 4
+#define DEBUG_OPTION_SD 8
+#define DEBUG_OPTION_MEMORY 16
 
+//For multi option use brackets and OR operator "|"
 #define _DEBUG DEBUG_OPTION_DISABLED
 
 // Enabled features - for debug
 #define ENABLE_LEARN_FLOW true
+#define ENABLE_ROOT_FRAME true
 
 // Learn config - default values
 // "Max card per session" parameter determine the maximum number card will be drawn for single session.
@@ -184,6 +187,9 @@
 #if ! ENABLE_LEARN_FLOW
 #warning "Learn flow disabled"
 #endif //ENABLE_LEARN_FLOW
+#if ! ENABLE_ROOT_FRAME
+#warning "Root frame disabled"
+#endif //ENABLE_ROOT_FRAME
 #endif //_DEBUG
 
 void setupPinout() {

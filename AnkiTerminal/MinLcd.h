@@ -171,7 +171,7 @@ namespace MinLcd
   //Public method
   //Method write string. String can contain character from "extend ASCII" table.
   //String is centered in the line. Width of the line is @maxSize.
-  void lcdWriteCenteredString(const char * characters, byte maxSize = MAX_CHARS_IN_ROW)
+  void lcdWriteCenteredString(const char * characters, const byte maxSize = MAX_CHARS_IN_ROW)
   {
     writeBlankSpaces(_calculateBlankSize(characters, maxSize));
     lcdWriteString(characters);
@@ -180,7 +180,7 @@ namespace MinLcd
   //Public method
   //Method write string stored in flash memory. String can contain character from "extend ASCII" table.
   //String is centered in the line. Width of the line is @maxSize.
-  void lcdWriteCenteredString(const __FlashStringHelper * characters, byte maxSize = MAX_CHARS_IN_ROW)
+  void lcdWriteCenteredString(const __FlashStringHelper * characters, const byte maxSize = MAX_CHARS_IN_ROW)
   {
     writeBlankSpaces(_calculateBlankSize(characters, maxSize));
     lcdWriteString(characters);
@@ -228,7 +228,7 @@ namespace MinLcd
   //Set screen pointer to (@x, @y) position, where
   //@x is column and @y is row. Next character will be
   //write in this position.
-  void lcdXY(const unsigned int x, const unsigned int y)
+  void lcdXY(const byte x, const byte y)
   {
 #if SPI_USE_TRANSACTION
     SPI.beginTransaction(SPISettings(SPI_LCD_MAX_SPEED, MSBFIRST, SPI_MODE0));
@@ -284,21 +284,6 @@ namespace MinLcd
     SPI.endTransaction();
 #endif //SPI_USE_TRANSACTION
   }
-
-#if ENABLE_DEBUGGING_FUNCTIONS
-  void blackLcd() {
-#if SPI_USE_TRANSACTION
-    SPI.beginTransaction(SPISettings(SPI_LCD_MAX_SPEED, MSBFIRST, SPI_MODE0));
-#endif //SPI_USE_TRANSACTION
-
-    for (int i = 0; i < 504; i++)
-      _lcdWriteData(0xff);
-
-#if SPI_USE_TRANSACTION
-    SPI.endTransaction();
-#endif //SPI_USE_TRANSACTION
-  }
-#endif //ENABLE_DEBUGGING_FUNCTIONS
 
   //Public method.
   //Set contrast of screen. You should choose correct value for the best quality.

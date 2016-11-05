@@ -18,7 +18,7 @@ class ResetConfigFrame : public YesNoAcceptFrame
 {
 
 protected:
-  void onPositionSelect(byte position_) override {
+  void onPositionSelect(const byte position_) override {
     YesNoAcceptFrame::onPositionSelect(position_);
 
     if (position_ == ACCEPT_ACTION)

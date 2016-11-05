@@ -61,7 +61,7 @@ protected:
   // Return filename on position.
   // Position is here position in the frame.
   // Filename is print to buffer. It is clean up in destructor.
-  const char * getFileName(byte index) {
+  const char * getFileName(const byte index) {
       FileTools::chdir(&sd, dirName);
       file.open(sd.vwd(), (positionsFile[index] / 32) - 1, O_READ); //Magic (with division). See SdFat documentation.
       file.getSFN(fileNameBuffer);
@@ -69,7 +69,7 @@ protected:
       return fileNameBuffer;
   }
    
-  virtual void writePosition(byte index) override {
+  virtual void writePosition(const byte index) override {
       MinLcd::lcdWriteString(getFileName(index));
   }
 

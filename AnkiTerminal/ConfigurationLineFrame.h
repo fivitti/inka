@@ -19,7 +19,7 @@ class ConfigurationLineFrame : public IFrameBase
 protected:
   const ConfigurationData * m_datas;
 
-  virtual void onPositionSelect(byte position_) override
+  virtual void onPositionSelect(const byte position_) override
   {
     if (position_ == NOT_SELECTED_POSITION)
       return;
@@ -30,7 +30,7 @@ protected:
 
     show();
   }
-  virtual void writePosition(byte index) override
+  virtual void writePosition(const byte index) override
   {
     MinLcd::lcdWriteString(m_datas[index].m_header);
   }
@@ -40,7 +40,7 @@ public:
   // @header - pointer to string header in flash memory
   // @configurationDatas - array of data of the field frames
   // @configurationDatasSize - size of @configurationDatas
-  ConfigurationLineFrame(const __FlashStringHelper * header, ConfigurationData * configurationDatas, byte configurationDatasSize) : IFrameBase(),
+  ConfigurationLineFrame(const __FlashStringHelper * header, const ConfigurationData * configurationDatas, const byte configurationDatasSize) : IFrameBase(),
                           m_datas(configurationDatas)
   {
     m_numPositions = configurationDatasSize;

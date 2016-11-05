@@ -119,7 +119,7 @@ class Session
   #undef NUM_CARDS_DELIMITER_SIZE
 
   //Write symbol. It inform user about if displayed verb is question or answer.
-  void writeSymbol(const char symbol)
+  void writeSymbol(const char symbol) const
   {
     MinLcd::lcdXY((SESSION_HEADER_TEXT_SIZE + 1) * CHAR_WIDTH, 0); //1 space after session title header
     MinLcd::lcdWriteCharacter(symbol);
@@ -157,7 +157,7 @@ class Session
 
   //Save progress in session file (not in progress file).
   //Arguments @repeatToEnd and @repeatTotal represent state before rate by user.
-  void saveProgress(byte decision, byte repeatToEnd, byte repeatTotal)
+  void saveProgress(const byte decision, byte repeatToEnd, const byte repeatTotal)
   {    
     switch(decision) {
         case GOOD_DECISION:

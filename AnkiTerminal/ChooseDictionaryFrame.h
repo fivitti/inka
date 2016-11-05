@@ -33,7 +33,7 @@ private:
     delete csv;
   }
   
-  void saveInConfiguration(const char * fileNameDictionary)
+  void saveInConfiguration(const char * fileNameDictionary) const
   {
     CSVFile * csv = new CSVFile();
     ConfigurationFile::editConfigurationDictionaryName(csv, fileNameDictionary);
@@ -42,7 +42,7 @@ private:
 
 protected:
   // Method from IBaseFrame
-  void onPositionSelect(byte position_) override {
+  void onPositionSelect(const byte position_) override {
     if (position_ == NOT_SELECTED_POSITION)
       return;
 

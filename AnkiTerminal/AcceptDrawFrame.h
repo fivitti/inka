@@ -25,7 +25,7 @@ class AcceptDrawFrame : public YesNoAcceptFrame
   AcceptDrawFrame() : YesNoAcceptFrame(nullptr) {};
   ~AcceptDrawFrame() {};
 
-  void setToAcceptNumber(byte toAccept) 
+  void setToAcceptNumber(const byte toAccept) 
   {
     m_toAccept = toAccept;
   }

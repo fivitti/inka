@@ -21,7 +21,7 @@ private:
   void(*m_instantEffectFunc)(byte);
 
 protected:
-  virtual void onPositionSelect(byte position_) override
+  virtual void onPositionSelect(const byte position_) override
   {
     if (position_ == NOT_SELECTED_POSITION)
     {
@@ -30,7 +30,7 @@ protected:
     
     ConfigurationFieldFrame::onPositionSelect(position_);
   }
-  virtual void onChangeIndicatorPosition(byte index) override
+  virtual void onChangeIndicatorPosition(const byte index) override
   {
     m_instantEffectFunc(index);
     IFrameBase::onChangeIndicatorPosition(index);

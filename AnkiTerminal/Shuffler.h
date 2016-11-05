@@ -15,7 +15,7 @@
 
 namespace Shuffler
 {
-  void ShufflePart(CSVFile * fileToShuffle, CSVFile * shuffledFile, unsigned int fromLine, byte lineToShuffle, byte seed)
+  void ShufflePart(CSVFile * fileToShuffle, CSVFile * shuffledFile, const unsigned int fromLine, byte lineToShuffle, const byte seed)
   {
     LFSR randomGenerator;
     randomGenerator.setup(seed, lineToShuffle);
@@ -39,7 +39,7 @@ namespace Shuffler
   }
   
   // File should be open
-  void Shuffle(char * filenameToShuffle, unsigned lineNumbers, byte seed)
+  void Shuffle(char * filenameToShuffle, unsigned int lineNumbers, const byte seed)
   {
     CSVFile fileToShuffle;
 

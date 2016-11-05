@@ -18,7 +18,7 @@ namespace ConfigurationFile
   // New configuration has default values (you can define its in Config.h)
   // If @resetIfExist is true ethod remove exist configuration file and create
   // new with default values.
-  bool createConfigurationFile(SdFat * sd, CSVFile * csv, bool resetIfExist=false)
+  bool createConfigurationFile(SdFat * sd, CSVFile * csv, const bool resetIfExist=false)
   {
     FileTools::chdirToApplicationDir(sd);
 
@@ -55,7 +55,7 @@ namespace ConfigurationFile
   //Method read all fields from the line. Its will be stored in @outputArray
   //Required set SD to application directory
   //Required outputArray of size of number field of line
-  void readConfigurationLine(CSVFile * csv, byte * outputArray, byte numLine)
+  void readConfigurationLine(CSVFile * csv, byte * outputArray, const byte numLine)
   {
     char buffer_[MAXIMUM_NUMBERIC_FIXED_CONFIGURATION_FIELD_SIZE + 1];    // Safe buffer
     buffer_[MAXIMUM_NUMBERIC_FIXED_CONFIGURATION_FIELD_SIZE] = '\0';

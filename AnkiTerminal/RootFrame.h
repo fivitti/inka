@@ -44,7 +44,7 @@ private:
   const __FlashStringHelper * strDictionary;
 
 protected:
-  void onPositionSelect(byte position_) override {
+  void onPositionSelect(const byte position_) override {
     AbstractSelectFrame::onPositionSelect(position_);
     
     IFrameBase * frame;
@@ -113,7 +113,7 @@ protected:
     delete frame;
   }
 
-  void writePosition(byte index) {
+  void writePosition(const byte index) {
     switch (index) {
       case POSITION_START:
         MinLcd::lcdWriteString(F(LANG_STR_START_LEARN_FLOW));

@@ -83,7 +83,7 @@ class Drawer
       return NOT_DRAWED_TYPE;
   }
 
-  void fillLineInSessionFile(CSVFile * sessionFile, CSVFile * dictionaryFile, unsigned int numLine, byte type)
+  void fillLineInSessionFile(CSVFile * sessionFile, CSVFile * dictionaryFile, const unsigned int numLine, const byte type)
   {
     sessionFile->addField(m_repeatCardNum, CSV_FIELD_SESSION_REPEAT_TO_END_SIZE);
     sessionFile->addField(BEGIN_REPEAT_TOTAL_NUMBER, CSV_FIELD_SESSION_REPEAT_TO_END_SIZE);
@@ -146,7 +146,7 @@ class Drawer
     return drawingCard;
   }
 
-  byte getMaximumToDraw()
+  byte getMaximumToDraw() const
   {
     return m_maximumToDraw;
   }

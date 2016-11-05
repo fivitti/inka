@@ -38,14 +38,14 @@ protected:
 private:
   //Write indicator. This method should be called with number of position indicator (NOT with selected position).
   //Maximum @position_ is @MAX_POSITIONS_ON_SCREEN
-  void writeIndicator(byte position_) {
+  void writeIndicator(const byte position_) {
     MinLcd::clearArea(0, HEADER_HEIGHT, MENU_INDICATOR_WIDTH, LCD_ROW_NUM);
     MinLcd::lcdXY(0,HEADER_HEIGHT+position_);
     MinLcd::lcdWriteCharacter(INDICATOR);
   }
 
   //Write positions in frame, start from @positionStart.
-  void writePositions(byte positionStart) {
+  void writePositions(const byte positionStart) {
     MinLcd::clearArea(MENU_INDICATOR_WIDTH, HEADER_HEIGHT);
     for (int i=positionStart; (i<m_numPositions) && ((i-positionStart) < MAX_POSITIONS_ON_SCREEN); i++)
     {
@@ -58,7 +58,7 @@ private:
   // @startPosition - is index of position which should be selected at start
   // @writeFrom - out parameter with index of position which should be start writing.
   // @startIndicatorPosition - out parameter with index of indicator at start
-  void findBeginIndexPositions(byte startPosition, byte& writeFrom, byte& startIndicatorPosition)
+  void findBeginIndexPositions(const byte startPosition, byte& writeFrom, byte& startIndicatorPosition)
   {
     startIndicatorPosition = startPosition % MAX_POSITIONS_ON_SCREEN;
     writeFrom = startPosition - startIndicatorPosition;
@@ -143,10 +143,10 @@ protected:
   //Don't forget assign this variable before call @show method from this class.
   byte m_numPositions=0;
   //Method called when user select position. @position_ is index of selected position.
-  virtual void onPositionSelect(byte position_) = 0;
+  virtual void onPositionSelect(const byte position_) = 0;
   //Method called when need write position. @index is index of position to write.
   //Pointer in LCD memory is set where should begin text.
-  virtual void writePosition(byte index) = 0;
+  virtual void writePosition(const byte index) = 0;
   //Standard implementation for write header.
   virtual void writeHeader()
   {
