@@ -5,6 +5,7 @@
 #include "Config.h"
 #include "MinLcd.h"
 #include "Buttons.h"
+#include "LcdTools.h"
 
 #define HEADER_HEIGHT 1  //in rows
 #define MAX_POSITIONS_ON_SCREEN (LCD_ROW_NUM-HEADER_HEIGHT)
@@ -99,8 +100,9 @@ private:
             onChangeIndicatorPosition(positionSelected);
           }
           else if (positionSelected == 0)
-          {
-            writePositions((m_numPositions / MAX_POSITIONS_ON_SCREEN) * MAX_POSITIONS_ON_SCREEN);
+          {           
+            byte modulo = m_numPositions % MAX_POSITIONS_ON_SCREEN;
+            writePositions(modulo == 0 ? m_numPositions - MAX_POSITIONS_ON_SCREEN : m_numPositions - modulo);
             indicatorPosition = (m_numPositions - 1) % MAX_POSITIONS_ON_SCREEN;
             positionSelected = m_numPositions - 1;
             onChangeIndicatorPosition(positionSelected);
@@ -151,7 +153,7 @@ protected:
   virtual void writeHeader()
   {
     MinLcd::lcdXY(0, 0);
-    MinLcd::lcdWriteCenteredString(m_header);
+    LcdTools::lcdWriteCenteredString(m_header);
   }
 
 public:

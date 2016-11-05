@@ -78,6 +78,7 @@
 #define LANG_STR_SYMBOL_QUESTION                'P'                       //  1               Character
 #define LANG_STR_SYMBOL_ANSWER                  'O'                       //  1               Character
 #define LANG_STR_SESSION_INIT_MESSAGE           "Inicjuję sesję"          //  14              Message           Popup
+#define LANG_STR_SESSION_RATE                   "   Oceń"                 //  7               Part of header    Warning! Don't forget to add blank space. Small length. Text in right up corner display when user should rate answer. Text should be align to right.
 // Shuffler
 #define LANG_STR_SHUFFLE_DICTIONARY_IN_PROGRESS_MESSAGE "Tasuję słownik"  //  14              Message           Popup
 #define LANG_STR_SHUFFLE_PROGRESS_IN_PROGRESS_MESSAGE "Układam postęp  "  //  14              Message           Popup
@@ -85,7 +86,7 @@
 // Summary
 #define LANG_STR_SUMMARY_IN_PROGRESS_MESSAGE    "Podsumowuję"             //  14              Message           Popup
 #define LANG_STR_SUMMARY_END_SESSION_MESSAGE    "Koniec sesji"            //  14              Message           Popup
-#define LANG_STR_SUMMARY_CURRENT_PROGRESS_MESSAGE "Postęp: "              //  10              Message           Popup. Don't forget about one space at end this string.
+#define LANG_STR_SUMMARY_CURRENT_PROGRESS_MESSAGE "Postęp: "              //  10              Part of message   Popup. Don't forget about one space at end this string.
 // YesNoAcceptFrame
 #define LANG_STR_YES                            "Tak"                     //  13              Position
 #define LANG_STR_NO                             "Nie"                     //  13              Position

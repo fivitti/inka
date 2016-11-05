@@ -254,7 +254,7 @@ class Summary
   {
     LcdTools::writeFullscreenMessage(F(LANG_STR_SUMMARY_END_SESSION_MESSAGE));
     MinLcd::lcdXY(0, FULLSCREEN_MESSAGE_ROW + 1);
-    MinLcd::lcdWriteCenteredString(F(LANG_STR_SUMMARY_CURRENT_PROGRESS_MESSAGE), MAX_CHARS_IN_ROW - AVERAGE_PROGRESS_MAXIMUM_SIZE - 1);
+    LcdTools::lcdWriteCenteredString(F(LANG_STR_SUMMARY_CURRENT_PROGRESS_MESSAGE), MAX_CHARS_IN_ROW - AVERAGE_PROGRESS_MAXIMUM_SIZE - 1);
     MinLcd::lcdWriteNumber(getAverageProgress());
     MinLcd::lcdWriteCharacter('%');
 

@@ -57,40 +57,6 @@ namespace MinLcd
       _lcdWriteFromAscii(index + EXTEND_ASCII_TABLE_START_SHIFT);
   }
 
-  //Private method
-  //This method calculate number of spaces for center @characters
-  //Width of line to center is @maxSize.
-  byte _calculateBlankSize(const char * characters, byte maxSize)
-  {
-    while (*characters++ && maxSize > 0)
-    {
-      maxSize -= 1;
-
-      if (*characters < 0)
-        characters++;
-    }
-    return maxSize >> 1;
-  }
-
-  //Private method
-  //This method calculate number of spaces for center @characters stored in flash memory
-  //Width of line to center is @maxSize.
-  byte _calculateBlankSize(const __FlashStringHelper * characters, byte maxSize)
-  {
-    const char * progmemCharacters = (const char PROGMEM *)characters;
-    char c = pgm_read_byte(progmemCharacters++);
-
-    while (c && maxSize > 0)
-    {
-      maxSize -= 1;
-
-      if (c < 0)
-        progmemCharacters++;
-      c = pgm_read_byte(progmemCharacters++);
-    }
-    return maxSize >> 1;
-  }
-
   //Private method.
   //Write command to LCD controler.
   void _lcdWriteCmd(const byte cmd)
@@ -161,32 +127,6 @@ namespace MinLcd
   }
 
   //Public method
-  //Write spaces. Number of spaces is equal @size_.
-  void writeBlankSpaces(byte size_)
-  {
-    while (size_-- > 0)
-      lcdWriteCharacter(' ');
-  }
-
-  //Public method
-  //Method write string. String can contain character from "extend ASCII" table.
-  //String is centered in the line. Width of the line is @maxSize.
-  void lcdWriteCenteredString(const char * characters, const byte maxSize = MAX_CHARS_IN_ROW)
-  {
-    writeBlankSpaces(_calculateBlankSize(characters, maxSize));
-    lcdWriteString(characters);
-  }
-
-  //Public method
-  //Method write string stored in flash memory. String can contain character from "extend ASCII" table.
-  //String is centered in the line. Width of the line is @maxSize.
-  void lcdWriteCenteredString(const __FlashStringHelper * characters, const byte maxSize = MAX_CHARS_IN_ROW)
-  {
-    writeBlankSpaces(_calculateBlankSize(characters, maxSize));
-    lcdWriteString(characters);
-  }
-
-  //Public method
   //Method write number on the screen. It support sign '-'.
   void lcdWriteNumber(int number)
   {
@@ -228,6 +168,8 @@ namespace MinLcd
   //Set screen pointer to (@x, @y) position, where
   //@x is column and @y is row. Next character will be
   //write in this position.
+  //Coordinate @x in pixels unit (for chars you should multiply them by @CHAR_WIDTH)
+  //Coordinate @y in char unit. (Between @y row and @y+1 row are pixels number equals height of single char)
   void lcdXY(const byte x, const byte y)
   {
 #if SPI_USE_TRANSACTION

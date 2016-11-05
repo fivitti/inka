@@ -97,6 +97,9 @@ class Session
    *              Symbol is write in other function.
    *       111  - number of cards to learn (size 1-3)
    *       222  - total number of cards (size 1-3)
+   *
+   * When user should to rate answer then program
+   * display helper message in 111/222 place (size 7 or less)
    */
   #define NUM_CARDS_DELIMITER '/'
   #define NUM_CARDS_DELIMITER_SIZE 1
@@ -106,7 +109,7 @@ class Session
     MinLcd::lcdXY(0,0);
     MinLcd::lcdWriteString(F(SESSION_HEADER_TEXT));
 
-    MinLcd::writeBlankSpaces(MAX_CHARS_IN_ROW -
+    LcdTools::writeBlankSpaces(MAX_CHARS_IN_ROW -
                      SESSION_HEADER_TEXT_SIZE -
                      NumberTools::numberOfDigits(m_toLearnCards) -
                      NUM_CARDS_DELIMITER_SIZE -
@@ -119,11 +122,24 @@ class Session
   #undef NUM_CARDS_DELIMITER_SIZE
 
   //Write symbol. It inform user about if displayed verb is question or answer.
+  #define SYMBOL_X_POSITION ((SESSION_HEADER_TEXT_SIZE + 1) * CHAR_WIDTH) ////1 space after session title header
   void writeSymbol(const char symbol) const
   {
-    MinLcd::lcdXY((SESSION_HEADER_TEXT_SIZE + 1) * CHAR_WIDTH, 0); //1 space after session title header
+    MinLcd::lcdXY(SYMBOL_X_POSITION, 0); 
     MinLcd::lcdWriteCharacter(symbol);
   }
+  #undef SYMBOL_X_POSITION
+
+  #define BLANK_SPACE_SIZE 1
+  #define MESSAGE_HEADER_POSITION (SESSION_HEADER_TEXT_SIZE + BLANK_SPACE_SIZE + SYMBOL_TYPE_CARD_SIZE + BLANK_SPACE_SIZE)
+  void writeHeaderMessagePart(const __FlashStringHelper * message)
+  {
+    MinLcd::clearArea(MESSAGE_HEADER_POSITION * CHAR_WIDTH, 0, LCD_COLUMN_NUM, SESSION_HEADER_HEIGHT);
+    MinLcd::lcdXY(MESSAGE_HEADER_POSITION * CHAR_WIDTH, 0);
+    MinLcd::lcdWriteString(message);
+  }
+  #undef BLANK_SPACE_SIZE
+  #undef MESSAGE_HEADER_POSITION
 
   //Required gotoBeginOfLine()
   //Set pointer SD card to end of field
@@ -199,21 +215,22 @@ class Session
     findAndGoToNextNotLearnedCard(repeatToEnd, repeatTotal);
     
     m_csv.gotoField(CSV_FIELD_SESSION_QUESTION);
-    writeSymbol(SYMBOL_QUESTION);
     writeCurrentField();
+    writeSymbol(SYMBOL_QUESTION);
 
     Buttons::waitForUnpress();    
     RETURN_WHEN_SHUTDOWN(MENU_AS_SHUTDOWN(Buttons::waitForKey()));
 
     m_csv.gotoField(CSV_FIELD_SESSION_ANSWER);   
-    writeSymbol(SYMBOL_ANSWER);
     writeCurrentField();
-    
+    writeSymbol(SYMBOL_ANSWER);
+    writeHeaderMessagePart(F(LANG_STR_SESSION_RATE));
+
 	  Buttons::waitForUnpress();
 	  byte decision = Buttons::waitForKey();
 	  RETURN_WHEN_SHUTDOWN(MENU_AS_SHUTDOWN(decision));
 
-      saveProgress(decision, repeatToEnd, repeatTotal);
+    saveProgress(decision, repeatToEnd, repeatTotal);
 
 	  return decision;
   }

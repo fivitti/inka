@@ -53,6 +53,36 @@ namespace StringTools
     }
     return !(*first) && !(*second);
   }
+
+  // Return different between @maxSize and length of @characters
+  byte calculateShiftString(const __FlashStringHelper * characters, byte maxSize)
+  {
+    const char * progmemCharacters = (const char PROGMEM *)characters;
+    char c = pgm_read_byte(progmemCharacters++);
+
+    while (c && maxSize > 0)
+    {
+      maxSize -= 1;
+
+      if (c < 0)
+        progmemCharacters++;
+      c = pgm_read_byte(progmemCharacters++);
+    }
+    return maxSize;
+  }
+
+  // Return different between @maxSize and length of @characters
+  byte calculateShiftString(const char * characters, byte maxSize)
+  {
+    while (*characters++ && maxSize > 0)
+    {
+      maxSize -= 1;
+
+      if (*characters < 0)
+        characters++;
+    }
+    return maxSize >> 1;
+  }
 }
 
 #endif //Tools_h
