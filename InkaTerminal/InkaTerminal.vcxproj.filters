@@ -15,10 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="AnkiTerminal.ino" />
+    <None Include="InkaTerminal.ino" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="__vm\.AnkiTerminal.vsarduino.h">
+    <ClInclude Include="__vm\.InkaTerminal.vsarduino.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AbstractSelectFrame.h">
