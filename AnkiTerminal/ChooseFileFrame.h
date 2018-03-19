@@ -1,9 +1,9 @@
 #ifndef ChooseFileFrame_h
 #define ChooseFileFrame_h
 
+#include <SdFat.h>
 #include "IFrameBase.h"
 #include <SPI.h>
-#include <SdFat.h>
 #include "MinLcd.h"
 #include "SdCardTools.h"
 #include "FileTools.h"
@@ -17,6 +17,8 @@
  */
 
 #define MAXIMUM_POSITIONS 254
+
+extern SdFat g_sd;
 
 class ChooseFileFrame : public IFrameBase {
 private:
@@ -42,7 +44,7 @@ private:
   // Find begin of position all files in directory.
   // Position is here location in the directory on the SD card.
   void findStartPositionFiles(FatFile * directory) {
-    FileTools::chdir(&sd, dirName);
+    FileTools::chdir(dirName);
     directory->rewind();
     positionsFile = new uint32_t[m_numPositions];
     byte count = 0;
@@ -56,14 +58,13 @@ private:
   }
  
 protected:
-  SdFat sd;
 
   // Return filename on position.
   // Position is here position in the frame.
   // Filename is print to buffer. It is clean up in destructor.
   const char * getFileName(const byte index) {
-      FileTools::chdir(&sd, dirName);
-      file.open(sd.vwd(), (positionsFile[index] / 32) - 1, O_READ); //Magic (with division). See SdFat documentation.
+      FileTools::chdir(dirName);
+      file.open(g_sd.vwd(), (positionsFile[index] / 32) - 1, O_READ); //Magic (with division). See SdFat documentation.
       file.getSFN(fileNameBuffer);
       file.close();
       return fileNameBuffer;
@@ -74,7 +75,7 @@ protected:
   }
 
   virtual bool init() {
-    m_numPositions = getFileCount(sd.vwd());
+    m_numPositions = getFileCount(g_sd.vwd());
 
     if (m_numPositions == 0) {
       LcdTools::writeFullscreenMessage(F(LANG_STR_MISSING_FILES_MESSAGE));
@@ -82,14 +83,14 @@ protected:
       return false;
     }
       
-    findStartPositionFiles(sd.vwd());
+    findStartPositionFiles(g_sd.vwd());
 
     return true;
   }
 
   void initSD(const char * dirName) {
-    SdCardTools::initSdCard(&sd);
-    FileTools::chdir(&sd, dirName);
+    SdCardTools::initSdCard();
+    FileTools::chdir(dirName);
   }
 
 public:

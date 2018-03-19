@@ -2,7 +2,6 @@
 #define ResetConfigFrame_h
 
 #include "YesNoAcceptFrame.h"
-#include <SdFat.h>
 #include "SdCardTools.h"
 #include "FileTools.h"
 #include "Config.h"
@@ -23,10 +22,9 @@ protected:
 
     if (position_ == ACCEPT_ACTION)
     {
-      SdFat sd;
-      SdCardTools::initSdCard(&sd);
+      SdCardTools::initSdCard();
       CSVFile csv;
-      ConfigurationFile::createConfigurationFile(&sd, &csv, true);
+      ConfigurationFile::createConfigurationFile(&csv, true);
     }
   }
 

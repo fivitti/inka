@@ -5,38 +5,40 @@
 #include <CSVFile.h>
 #include "Config.h"
 
+extern SdFat g_sd;
+
 /* Some helpful utilites for work with files and filesystem encapsulate the more often operations.
  */
 namespace FileTools
-{
+{  
   // Change dir to other directory in the root SD card directory.
-  void chdir(SdFat * sd, const char * directory)
+  void chdir(const char * directory)
   {
-    sd->chdir();
-    sd->mkdir(directory);
-    sd->chdir(directory);
+    g_sd.chdir();
+    g_sd.mkdir(directory);
+    g_sd.chdir(directory);
   }
 
-  void chdirToDictionaryDir(SdFat * sd)
+  void chdirToDictionaryDir()
   {
-    chdir(sd, DICTIONARY_DIR);
+    chdir(DICTIONARY_DIR);
   }
 
-  void chdirToApplicationDir(SdFat * sd)
+  void chdirToApplicationDir()
   {
-    chdir(sd, APPLICATION_DIR);
+    chdir(APPLICATION_DIR);
   }
   
   // Check if in @directory exist @filename
-  bool isExistFile(SdFat * sd, const char * directory, const char * filename)
+  bool isExistFile(const char * directory, const char * filename)
   {
-    FileTools::chdir(sd, directory);
-    return sd->exists(filename); 
+    FileTools::chdir(directory);
+    return g_sd.exists(filename); 
   }
   
   // Check if in application directory exist @filename
-  bool isExistApplicationFile(SdFat * sd, const char * filename) {
-    return FileTools::isExistFile(sd, APPLICATION_DIR, filename);
+  bool isExistApplicationFile(const char * filename) {
+    return FileTools::isExistFile(APPLICATION_DIR, filename);
   }
 
   // Calculate number of line in file.
@@ -53,7 +55,7 @@ namespace FileTools
     return numLine + 1;
   }
 
-  void copyFile(SdBaseFile * sourceFile, SdBaseFile * targetFile)
+  void copyFile(FatFile * sourceFile, FatFile * targetFile)
   {
     sourceFile->rewind();
     targetFile->truncate(0);

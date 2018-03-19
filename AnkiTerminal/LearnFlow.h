@@ -12,6 +12,8 @@
 #define NEEDED_DRAW DELINE_ACTION
 #define NOT_NEEDED_DRAW ACCEPT_ACTION
 
+extern SdFat g_sd;
+
 /*
  * These methods encapsulate main stages programs.
  * The learn flow in @performSessionLearn method:
@@ -28,14 +30,14 @@
  *       press program should be stopped and retun to menu.
  */
 namespace LearnFlow
-{ 
+{   
   // New progress file should be created when:
   // - progress file not exist
   // - user want reset progress
   // Return true if progress file should be create or false if not.
-  bool shouldCreateNewProgressFile(SdFat * sd, const char * fileName)
+  bool shouldCreateNewProgressFile(const char * fileName)
   {
-    if (!FileTools::isExistApplicationFile(sd, fileName))
+    if (!FileTools::isExistApplicationFile(fileName))
     {
       return true;
     }
@@ -44,7 +46,7 @@ namespace LearnFlow
     deleteProgress.show();
     if (deleteProgress.getSelectedAction() == DELINE_ACTION)
     {
-      sd->remove(fileName);
+      g_sd.remove(fileName);
       return true;
     }
     else
@@ -57,9 +59,9 @@ namespace LearnFlow
   // Cards should be drawn when:
   // - Session file not exist
   // - User want discard session
-  byte isNeededDrawCards(SdFat * sd)
+  byte isNeededDrawCards()
   {
-    if (!FileTools::isExistApplicationFile(sd, SESSION_SET_FILENAME))
+    if (!FileTools::isExistApplicationFile(SESSION_SET_FILENAME))
     {
       return NEEDED_DRAW;
     }
@@ -69,7 +71,7 @@ namespace LearnFlow
       
     if (restoreSession.getSelectedAction() == DELINE_ACTION)
     {
-      sd->remove(SESSION_SET_FILENAME);
+      g_sd.remove(SESSION_SET_FILENAME);
     }
 
     return restoreSession.getSelectedAction();
@@ -79,9 +81,9 @@ namespace LearnFlow
   // value in configuration.
   // If draw number is less then maximum then should be draw until user don't accept
   // number of drawed cards.
-  byte drawCards(SdFat * sd)
+  byte drawCards()
   {
-    Drawer drawer(sd);
+    Drawer drawer;
     AcceptDrawFrame adf;
     byte drawAction = 0;
 
@@ -114,19 +116,19 @@ namespace LearnFlow
   // 1. Draw cards
   // 2. Learn cards
   // 3. Save progres
-  byte performSessionLearn(SdFat * sd)
+  byte performSessionLearn()
   { 
-    byte isNeededDraw = LearnFlow::isNeededDrawCards(sd); 
+    byte isNeededDraw = LearnFlow::isNeededDrawCards(); 
     RETURN_WHEN_SHUTDOWN(isNeededDraw);
   
     if (isNeededDraw == NEEDED_DRAW)
-      RETURN_WHEN_SHUTDOWN(LearnFlow::drawCards(sd)); 
+      RETURN_WHEN_SHUTDOWN(LearnFlow::drawCards()); 
   
-    Session session(sd);
+    Session session;
     session.configure();
     RETURN_WHEN_SHUTDOWN(session.executeSession());
   
-    Summary summary(sd);
+    Summary summary;
     summary.execute();
   
 	return OK_ACTION;

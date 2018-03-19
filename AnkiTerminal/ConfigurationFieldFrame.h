@@ -1,7 +1,6 @@
 #ifndef ConfigurationFieldFrame_h
 #define ConfigurationFieldFrame_h
 
-#include <SdFat.h>
 #include <CSVFile.h>
 #include "Config.h"
 #include "IFrameBase.h"
@@ -28,15 +27,13 @@ protected:
     if (position_ == NOT_SELECTED_POSITION)
       return;
 
-    SdFat * sd = new SdFat();;
-    SdCardTools::initSdCard(sd);
-    FileTools::chdirToApplicationDir(sd);
+    SdCardTools::initSdCard();
+    FileTools::chdirToApplicationDir();
     CSVFile * csv = new CSVFile();
 
     ConfigurationFile::editConfigurationField(csv, position_, m_configurationData->m_numLine, m_configurationData->m_numField);
 
     delete csv;
-    delete sd;
   }
   virtual void writePosition(byte index) override
   {
@@ -53,16 +50,14 @@ public:
   void show() override {
     m_numPositions = m_configurationData->m_maximum;
 
-    SdFat * sd = new SdFat();;
-    SdCardTools::initSdCard(sd);
-    FileTools::chdirToApplicationDir(sd);
+    SdCardTools::initSdCard();
+    FileTools::chdirToApplicationDir();
     CSVFile * csv = new CSVFile();
 
     int currentValue;
     ConfigurationFile::readConfigurationField(csv, currentValue, m_configurationData->m_numLine, m_configurationData->m_numField);
 
     delete csv;
-    delete sd;
 
     setStartPosition(currentValue);
 

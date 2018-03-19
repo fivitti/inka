@@ -5,13 +5,14 @@
 #include "Lang.h"
 #include "CSVSpecifications.h"
 #include "ConfigurationFile.h"
-#include <SdFat.h>
 #include "Tools.h"
 #include "LcdTools.h"
 #include "FileTools.h"
 
-#define BUFFER_SIZE FILENAME_LIMIT_SIZE //buffer must be at least as high as filename
-#define BUFFER_SIZE_WITH_END_CHAR (FILENAME_LIMIT_SIZE + 1)
+#define BUFFER_FILENAME_SIZE FILENAME_LIMIT_SIZE //buffer must be at least as high as filename
+#define BUFFER_FILENAME_SIZE_WITH_END_CHAR (FILENAME_LIMIT_SIZE + 1)
+#define BUFFER_FIELD_SIZE MAXIMUM_NUMBERIC_FIXED_CONFIGURATION_FIELD_SIZE
+#define BUFFER_FIELD_SIZE_WITH_END_CHAR (MAXIMUM_NUMBERIC_FIXED_CONFIGURATION_FIELD_SIZE + 1)
 #define MAXIMUM_PROBABILITY_FOR_RANDOM 100
 #define BEGIN_REPEAT_TOTAL_NUMBER 0
 #define NOT_DRAWED_TYPE 4
@@ -23,7 +24,6 @@
 class Drawer
 {
   private:
-  SdFat * m_sd;
   CSVFile m_csv;
   
   byte m_maximumToDraw;
@@ -31,16 +31,18 @@ class Drawer
   byte m_mode;
 
   int m_bufferNum;
-  char m_buffer[BUFFER_SIZE_WITH_END_CHAR];
+  char m_buffer[MAXIMUM_NUMBERIC_FIXED_CONFIGURATION_FIELD_SIZE + 1];
+  char m_dictionaryName[BUFFER_FILENAME_SIZE_WITH_END_CHAR];
   public:
-  Drawer(SdFat * sdCard) : m_sd(sdCard) {
-    m_buffer[BUFFER_SIZE_WITH_END_CHAR - 1] = '\0';
+  Drawer() {
+    m_dictionaryName[BUFFER_FILENAME_SIZE_WITH_END_CHAR - 1] = '\0';
+    m_buffer[BUFFER_FIELD_SIZE_WITH_END_CHAR - 1] = '\0';
   }
   ~Drawer(){}
 
   bool readConfiguration()
   {
-    FileTools::chdirToApplicationDir(m_sd);
+    FileTools::chdirToApplicationDir();
     
     byte drawConfiguration[CSV_LINE_CONFIG_LEARN_DRAW_SIZE];
     ConfigurationFile::readConfigurationLine(&m_csv, drawConfiguration, CSV_LINE_CONFIG_LEARN_DRAW);
@@ -50,7 +52,7 @@ class Drawer
     m_repeatCardNum = drawConfiguration[CSV_FIELD_CONFIG_LEARN_DRAW_REPEAT_NUMBER];
 
     //Temporary read dictionary name to buffer
-    return ConfigurationFile::readConfigurationDictionaryName(&m_csv, m_buffer, BUFFER_SIZE);
+    return ConfigurationFile::readConfigurationDictionaryName(&m_csv, m_dictionaryName, BUFFER_FILENAME_SIZE);
   }
 
   byte drawTypeForDrawing()
@@ -76,7 +78,7 @@ class Drawer
       progressFile->gotoField(CSV_FIELD_PROGRESS_PROBABILITY_SECOND_LANG_POSITION);
     }
     
-    progressFile->readField(m_bufferNum, m_buffer, BUFFER_SIZE);
+    progressFile->readField(m_bufferNum, m_buffer, BUFFER_FIELD_SIZE);
     if (m_bufferNum >= random(MAXIMUM_PROBABILITY_FOR_RANDOM))
       return mode;
     else
@@ -109,20 +111,20 @@ class Drawer
   // It may therefore happen, that the algoritm draw less number of cards then value this parameter.
   byte draw()
   {
-    FileTools::chdirToApplicationDir(m_sd);
+    FileTools::chdirToApplicationDir();
 
     CSVFile progressFile;
     CSVFile dictionaryFile;
 
     m_csv.open(SESSION_SET_FILENAME, O_RDWR | O_CREAT | O_TRUNC);
-    
     m_csv.gotoBeginOfFile();
-    progressFile.open(m_buffer, O_RDWR);
-
+    
+    progressFile.open(m_dictionaryName, O_RDWR);
     progressFile.gotoBeginOfFile();
-    FileTools::chdirToDictionaryDir(m_sd);
-    dictionaryFile.open(m_buffer, O_RDWR);
-
+    FileTools::chdirToDictionaryDir();
+    dictionaryFile.open(m_dictionaryName, O_RDWR);
+    dictionaryFile.gotoBeginOfFile();
+    
     byte drawingCard = 0;
     do
     {
@@ -152,7 +154,10 @@ class Drawer
   }
 };
 
-#undef BUFFER_SIZE
+#undef BUFFER_FILENAME_SIZE
+#undef BUFFER_FIELD_SIZE
+#undef BUFFER_FILENAME_SIZE_WITH_END_CHAR
+#undef BUFFER_FIELD_SIZE_WITH_END_CHAR
 #undef MAXIMUM_PROBABILITY_FOR_RANDOM
 #undef BEGIN_REPEAT_TOTAL_NUMBER
 #undef NOT_DRAWED_TYPE

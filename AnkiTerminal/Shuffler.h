@@ -74,16 +74,14 @@ namespace Shuffler
       return;
 
     LcdTools::writeFullscreenMessage(F(LANG_STR_SHUFFLE_PROGRESS_IN_PROGRESS_MESSAGE));
-
-    SdFat sd;
     
     char buffer_[FILENAME_LIMIT_SIZE + 1];
     buffer_[FILENAME_LIMIT_SIZE] = '\0';
     byte seed = analogRead(PIN_RANDOM);
     unsigned int lineNumbers = 0;
 
-    SdCardTools::initSdCard(&sd);
-    FileTools::chdirToApplicationDir(&sd);
+    SdCardTools::initSdCard();
+    FileTools::chdirToApplicationDir();
     
     {
       CSVFile csv;
@@ -97,7 +95,7 @@ namespace Shuffler
     // Shuffle progress
     Shuffle(buffer_, lineNumbers, seed);
     // Shuffle dictionary
-    FileTools::chdirToDictionaryDir(&sd);
+    FileTools::chdirToDictionaryDir();
     LcdTools::writeFullscreenMessage(F(LANG_STR_SHUFFLE_DICTIONARY_IN_PROGRESS_MESSAGE));
     Shuffle(buffer_, lineNumbers, seed);
   }

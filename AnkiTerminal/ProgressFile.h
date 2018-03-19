@@ -1,7 +1,6 @@
 #ifndef ProgressFile_h
 #define ProgressFile_h
 
-#include <SdFat.h>
 #include <CSVFile.h>
 #include "Lang.h"
 #include "Config.h"
@@ -15,15 +14,15 @@
  */
 namespace ProgressFile
 {
-  void createProgressFile(SdFat * sd, CSVFile * csv, const char * dictionaryFilename)
+  void createProgressFile(CSVFile * csv, const char * dictionaryFilename)
   {
-    FileTools::chdirToDictionaryDir(sd);
+    FileTools::chdirToDictionaryDir();
 
     csv->open(dictionaryFilename, O_RDWR);
     unsigned int numLine = FileTools::calculateNumberLine(csv);
     csv->close();
 
-    FileTools::chdirToApplicationDir(sd);
+    FileTools::chdirToApplicationDir();
 
     int beginProbability = BEGIN_PROBABILITY_DEFAULT;
     ConfigurationFile::readConfigurationField(csv, beginProbability, CSV_LINE_CONFIG_LEARN_INIT_PROGRESS, CSV_FIELD_CONFIG_LEARN_INIT_PROGRESS_BEGIN_PROBABILITY);

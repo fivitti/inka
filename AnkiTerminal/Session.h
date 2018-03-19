@@ -1,7 +1,6 @@
 #ifndef Session_h
 #define Session_h
 
-#include <SdFat.h>
 #include "Config.h"
 #include "ConfigurationFile.h"
 #include "CSVSpecifications.h"
@@ -49,7 +48,6 @@ class Session
   byte m_toLearnCards;
   byte m_totalCards;
 
-  SdFat * m_sd;
   CSVFile m_csv;
   char m_buffer[SAFE_BUFFER_SIZE];
   int m_numBuffer;
@@ -236,7 +234,7 @@ class Session
   }
   
   public:
-  Session(SdFat * sd) : m_sd(sd){
+  Session(){
     m_buffer[BUFFER_SIZE] = '\0'; //Safe buffer
   }
   
@@ -244,7 +242,7 @@ class Session
   void configure()
   {
     LcdTools::writeFullscreenMessage(F(LANG_STR_SESSION_INIT_MESSAGE));
-    FileTools::chdirToApplicationDir(m_sd);
+    FileTools::chdirToApplicationDir();
     
     byte sessionConfiguration[CSV_LINE_CONFIG_LEARN_SESSION_SIZE];
     ConfigurationFile::readConfigurationLine(&m_csv, sessionConfiguration, CSV_LINE_CONFIG_LEARN_SESSION);

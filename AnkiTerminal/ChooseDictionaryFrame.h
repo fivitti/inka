@@ -4,6 +4,7 @@
 #include "Lang.h"
 #include "Config.h"
 #include "ChooseFileFrame.h"
+#include <SdFat.h>
 #include <CSVFile.h>
 #include "CSVSpecifications.h"
 #include "FileTools.h"
@@ -14,6 +15,8 @@
 #include "ProgressFile.h"
 #include "LearnFlow.h"
 
+extern SdFat g_sd;
+
 /* 
  * Frame for choose dictionary, save dictionary filename in configuration
  * file and generate progress file if needed.
@@ -23,13 +26,13 @@ private:
   // Progress file has the same name as dictionary, but is stored
   // in application directory.
   void generateProgressFile(const char * fileName) {
-    if (!LearnFlow::shouldCreateNewProgressFile(&sd, fileName))
+    if (!LearnFlow::shouldCreateNewProgressFile(fileName))
       return;
     
     LcdTools::writeFullscreenMessage(F(LANG_STR_INIT_DICTIONARY_MESSAGE), true);
     
     CSVFile * csv = new CSVFile();
-    ProgressFile::createProgressFile(&sd, csv, fileName);
+    ProgressFile::createProgressFile(csv, fileName);
     delete csv;
   }
   
@@ -48,11 +51,11 @@ protected:
 
     const char * fileName = getFileName(position_);
     generateProgressFile(fileName);
-    FileTools::chdirToApplicationDir(&sd);
+    FileTools::chdirToApplicationDir();
     saveInConfiguration(fileName);
     // When we change dictionary we remove session file with previous
     // dictionary data.
-    sd.remove(SESSION_SET_FILENAME);  // Return false if session file not exist
+    g_sd.remove(SESSION_SET_FILENAME);  // Return false if session file not exist
   }
 
   byte findStartPosition(const char * dictName)
@@ -78,14 +81,14 @@ protected:
 
     CSVFile * csv = new CSVFile();
 
-    FileTools::chdirToApplicationDir(&sd);    
+    FileTools::chdirToApplicationDir();    
 
     if (ConfigurationFile::readConfigurationDictionaryName(csv, buffer_, FILENAME_LIMIT_SIZE))
     {
       setStartPosition(findStartPosition(buffer_));
     }
 
-	delete csv;
+	  delete csv;
 	
     return true;
   }

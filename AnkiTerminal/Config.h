@@ -64,7 +64,7 @@
 #define PIN_LCD_CLK PIN_SPI_CLK
 
 //Switches pinout
-#define PIN_BUTTON A2   //Analog pin
+#define PIN_BUTTON A5   //Analog pin
 
 //Random pinout
 #define PIN_RANDOM A0   //Not used analog pin

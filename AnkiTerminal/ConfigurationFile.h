@@ -8,21 +8,23 @@
 #include "FileTools.h"
 #include "LcdTools.h"
 
+extern SdFat g_sd;
+
 /*
  * Utilites for work with configuration file.
  * It encapsulate operation for create file and read and update values.
  */
 namespace ConfigurationFile
-{
+{  
   // Method for create new configuration file (if exist then do nothing).
   // New configuration has default values (you can define its in Config.h)
   // If @resetIfExist is true ethod remove exist configuration file and create
   // new with default values.
-  bool createConfigurationFile(SdFat * sd, CSVFile * csv, const bool resetIfExist=false)
+  bool createConfigurationFile(CSVFile * csv, const bool resetIfExist=false)
   {
-    FileTools::chdirToApplicationDir(sd);
+    FileTools::chdirToApplicationDir();
 
-    if (sd->exists(CONFIGURATION_FILENAME))
+    if (g_sd.exists(CONFIGURATION_FILENAME))
       return true;
 
     csv->open(CONFIGURATION_FILENAME, O_RDWR | O_CREAT | resetIfExist ? O_RDWR : 0);

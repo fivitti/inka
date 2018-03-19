@@ -1,6 +1,7 @@
 #ifndef Summary_h
 #define Summary_h
 
+#include <SdFat.h>
 #include <CSVFile.h>
 #include "FileTools.h"
 #include "Config.h"
@@ -22,10 +23,11 @@
  * Class save result of session to progress file.
  * This class use mechanism for protect by power down while summary in progress.
  */
+extern SdFat g_sd;
+ 
 class Summary
 {
   private:
-  SdFat * m_sd;
   CSVFile m_csvProgress;
   CSVFile m_csvSession;
 
@@ -69,7 +71,7 @@ class Summary
   
   bool openFiles()
   {
-    FileTools::chdirToApplicationDir(m_sd);
+    FileTools::chdirToApplicationDir();
 
     RETURN_IF_FALSE(m_csvSession.open(SESSION_SET_FILENAME, O_RDWR));
     RETURN_IF_FALSE(ConfigurationFile::readConfigurationDictionaryName(&m_csvProgress, m_buffer, BUFFER_SIZE));
@@ -262,7 +264,7 @@ class Summary
   }
   
   public:
-  Summary(SdFat * sd) : m_sd(sd) 
+  Summary() 
   {
     m_buffer[BUFFER_SIZE] = '\0'; //Safe buffer
   }
@@ -273,7 +275,7 @@ class Summary
   {
     executeImpl();
     disposeFiles();
-    m_sd->remove(SESSION_SET_FILENAME);
+    g_sd.remove(SESSION_SET_FILENAME);
     writeSummaryMessage();
   }
 };

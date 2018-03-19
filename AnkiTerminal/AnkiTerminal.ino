@@ -22,6 +22,8 @@ MinimumSerial MiniSerial;
 #include "RootFrame.h"
 #include "LearnFlow.h"
 
+/*global*/ SdFat g_sd;
+
 void setup() {  
   setupPinout();
   SPI.begin();
@@ -44,17 +46,15 @@ void setup() {
   MiniSerial.println(F("DEBUG MODE"));
   #endif //DEBUG_OPTION_MINIMAL_SERIAL
 
-  SdFat sd;
-  CSVFile csvFile;
-
   //We must initialize LCD with default values, because we can
   //get error SD card and we must display message for user.
   MinLcd::setupLcd();
   
-  SdCardTools::initSdCard(&sd);
+  SdCardTools::initSdCard();
 
+  CSVFile csvFile;
   //It create new configuration file if not exist else do nothing
-  ConfigurationFile::createConfigurationFile(&sd, &csvFile);
+  ConfigurationFile::createConfigurationFile(&csvFile);
   
   //Right configuration LCD
   byte lcdConfiguration[CSV_LINE_CONFIG_LCD_SIZE];
@@ -74,12 +74,9 @@ void loop() {
   #endif //ENABLE_ROOT_FRAME
   #if ENABLE_LEARN_FLOW
     //Start learn program
-    SdFat * sd = new SdFat();
-    SdCardTools::initSdCard(sd);
+    SdCardTools::initSdCard();
     
-    LearnFlow::performSessionLearn(sd);
-
-    delete sd;
+    LearnFlow::performSessionLearn();
   #endif //ENABLE_LEARN_FLOW
 }
 

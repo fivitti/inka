@@ -6,6 +6,9 @@
 #include "MinLcd.h"
 #include "LcdTools.h"
 #include "Lang.h"
+
+extern SdFat g_sd;
+
 //Utilites for work with SD Card
 namespace SdCardTools {
   
@@ -36,11 +39,11 @@ namespace SdCardTools {
   }
 
   //Block the main thread until user don't insert the SD card.
-  void WaitForSdCard(SdFat * sd)
+  void WaitForSdCard()
   {
-    while(!sd->begin(PIN_SD_CS, SPI_SD_MAX_SPEED))
+    while(!g_sd.begin(PIN_SD_CS, SPI_SD_MAX_SPEED))
     {
-      WriteSdError(sd);
+      WriteSdError(&g_sd);
 
       #if _DEBUG & DEBUG_OPTION_SD
       sd->errorPrint();
@@ -51,12 +54,12 @@ namespace SdCardTools {
   }
 
   //Perform initialization SD card.
-  void initSdCard(SdFat * sd)
+  void initSdCard()
   {
     digitalWrite(PIN_LCD_CS, HIGH);
-    if (!sd->begin(PIN_SD_CS, SPI_SD_MAX_SPEED))
+    if (!g_sd.begin(PIN_SD_CS, SPI_SD_MAX_SPEED))
     {
-      SdCardTools::WaitForSdCard(sd);
+      SdCardTools::WaitForSdCard();
     }
   }
 
