@@ -141,13 +141,11 @@
 *    Creation by:    User
 *    Filename:       These filename should have maximum size @FILENAME_LIMIT_SIZE = 13 in 8.3 format - 8 chars for name and 3 for extension. 1 for dot.
 *    Number of line: As much as drawed cards. Maximum is value of @CSV_FIELD_CONFIG_LEARN_DRAW_MAXIMUM_CARD_PER_SESSION field.
-*    Content:        Each line in format: |00;00;s*;s*;0*;0?|
-*                    where first field is repeat remaining to end session
-*                    and second is count repeats in current session
-*                    and third is question verb - copy verb from dictionary
-*                    and fourth is answer verb - copy verb from dictionary
-*                    and fifth is number of line in progress file with this card
-*                    and sixth described which language is used for question verb (0 for first and 1 for second)
+*    Content:        Each line in format: |s*;s*;s*;s*|
+*                    where first is question verb in first language
+*                    and second is answer verb in second language
+*                    and third is extra aswer verbs (ignored in this version)
+*                    and fourth is pronunciation (ignored in this version)
 */
 #define CSV_FIELD_DICTIONARY_FIRST_LANG 0
 #define CSV_FIELD_DICTIONARY_SECOND_LANG 1
