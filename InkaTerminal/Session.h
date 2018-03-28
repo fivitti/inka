@@ -224,13 +224,13 @@ class Session
     writeSymbol(SYMBOL_ANSWER);
     writeHeaderMessagePart(F(LANG_STR_SESSION_RATE));
 
-	  Buttons::waitForUnpress();
-	  byte decision = Buttons::waitForKey();
-	  RETURN_WHEN_SHUTDOWN(MENU_AS_SHUTDOWN(decision));
+	Buttons::waitForUnpress();
+	byte decision = Buttons::waitForKey();
+	RETURN_WHEN_SHUTDOWN(MENU_AS_SHUTDOWN(decision));
 
     saveProgress(decision, repeatToEnd, repeatTotal);
 
-	  return decision;
+	return decision;
   }
   
   public:
